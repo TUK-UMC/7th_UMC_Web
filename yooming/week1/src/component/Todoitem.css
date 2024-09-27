@@ -1,0 +1,26 @@
+.Todoitem .item{
+    width: 200px;
+    height: 50px;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    padding-top: 10px;
+    border-bottom: 3.5px solid rgb(193 193 193);
+}
+
+.Todoitem .item .content{
+    font-weight: 600;
+    font-size: 15px;
+    color: black;
+}
+
+.Todoitem .item .isdone{
+    width: 35px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(193 193 193);
+    font-weight: 600;
+    font-size: 11px;
+    color: black;
+}
