@@ -1,0 +1,9 @@
+.poster-wrapper {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 5px;
+}
+
+.poster {
+  border-radius: 10px;
+}
