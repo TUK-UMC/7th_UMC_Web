@@ -93,7 +93,6 @@ function App() {
   );
 }
 
-export default App;
 
 import React from "react";
 import "./Button.css";
@@ -106,7 +105,6 @@ const Button = ({ onClick, text, className = "", type = "button" }) => {
   );
 };
 
-export default Button;
 
 import React from "react";
 import "./Input.css";
