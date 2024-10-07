@@ -1,0 +1,25 @@
+.todo-wrapper {
+  display: flex;
+  height: 30px;
+  gap: 50px;
+  align-items: center;
+  font-size: 18px;
+}
+
+.todo-title {
+  margin-left: 3px;
+  text-align: left;
+}
+
+.button-wrapper {
+  display: flex;
+  gap: 2px;
+}
+
+.list-item {
+  display: flex;
+  gap: 5px;
+  width: 300px;
+  height: 100%;
+  align-items: center;
+}
