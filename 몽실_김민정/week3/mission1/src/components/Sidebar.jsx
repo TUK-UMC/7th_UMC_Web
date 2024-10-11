@@ -12,7 +12,7 @@ export const Sidebar = () => {
         to={"/search"}
         onMouseEnter={() => setHoveredIndex(0)}
         onMouseLeave={() => setHoveredIndex(-1)}
-        isHover={hoveredIndex === 0}
+        $isHover={hoveredIndex === 0}
       >
         <FaSearch color='white' />
         찾기
@@ -21,7 +21,7 @@ export const Sidebar = () => {
         to={"/movies"}
         onMouseEnter={() => setHoveredIndex(1)}
         onMouseLeave={() => setHoveredIndex(-1)}
-        isHover={hoveredIndex === 1}
+        $isHover={hoveredIndex === 1}
       >
         <MdMovie color='white' />
         영화
@@ -51,5 +51,6 @@ const MenuLink = styled(Link)`
   display: flex;
   gap: 10px;
   align-items: center;
-  border-bottom: 3px solid ${({ isHover }) => (isHover ? "#9E9D9D" : "#282728")};
+  border-bottom: 3px solid
+    ${({ $isHover }) => ($isHover ? "#9E9D9D" : "#282728")};
 `;

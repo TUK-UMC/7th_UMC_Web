@@ -41,7 +41,7 @@ export const Movies = () => {
               image={category.image}
               onMouseEnter={() => setHoveredCategory(index)}
               onMouseLeave={() => setHoveredCategory(-1)}
-              isHover={hoveredCategory === index}
+              $isHover={hoveredCategory === index}
             >
               <Tag>
                 <span>{category.name}</span>
@@ -86,7 +86,7 @@ const Category = styled.div`
   font-size: 18px;
   position: relative;
   isolation: isolate;
-  border: 3px solid ${({ isHover }) => (isHover ? "#9E9D9D" : "#282728")};
+  border: 3px solid ${({ $isHover }) => ($isHover ? "#9E9D9D" : "#282728")};
 `;
 
 const Tag = styled.div`
