@@ -1,10 +1,17 @@
-import React from "react";
-import { MOVIES } from "../mocks/movies";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Poster } from "../components/Poster";
+import { getPopularMovies } from "../apis/movieAPI";
 
 function Home() {
-  const movies = MOVIES.results;
+  const [movies, setMovies] = useState([]);
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const movies = await getPopularMovies();
+      setMovies(movies);
+    };
+    fetchMovies();
+  }, []);
   return (
     <PosterWrapper>
       {movies.map((movie) => (
