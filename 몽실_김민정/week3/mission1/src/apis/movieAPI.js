@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const TOKEN = process.env.REACT_APP_TMDB_TOKEN;
-const BASE_URL = `https://api.themoviedb.org/3/movie/`;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const getNowPlayingMovies = async () => {
   try {

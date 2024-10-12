@@ -51,6 +51,9 @@ const MenuLink = styled(Link)`
   display: flex;
   gap: 10px;
   align-items: center;
-  border-bottom: 3px solid
-    ${({ $isHover }) => ($isHover ? "#9E9D9D" : "#282728")};
+  border-bottom: 3px solid #282728;
+
+  &:hover {
+    border-bottom-color: #9e9d9d;
+  }
 `;

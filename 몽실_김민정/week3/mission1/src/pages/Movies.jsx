@@ -86,7 +86,11 @@ const Category = styled.div`
   font-size: 18px;
   position: relative;
   isolation: isolate;
-  border: 3px solid ${({ $isHover }) => ($isHover ? "#9E9D9D" : "#282728")};
+  border: 3px solid #282728;
+
+  &:hover {
+    border-color: #9e9d9d;
+  }
 `;
 
 const Tag = styled.div`
