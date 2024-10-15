@@ -1,5 +1,5 @@
-// src/pages/MoviesPage.jsx
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 // MovieCard 스타일링
@@ -14,6 +14,7 @@ const MovieCard = styled.div`
   color: white;
   font-size: 16px;
   margin-right: 20px;
+  cursor: pointer;
 `;
 
 const MoviesContainer = styled.div`
@@ -26,10 +27,18 @@ const MoviesPage = () => {
     <div>
       <h1>카테고리</h1>
       <MoviesContainer>
-        <MovieCard>현재 상영중인</MovieCard>
-        <MovieCard>인기있는</MovieCard>
-        <MovieCard>높은 평가를 받은</MovieCard>
-        <MovieCard>개봉 예정중인</MovieCard>
+        <Link to="/movies/now-playing">
+          <MovieCard>현재 상영중인</MovieCard>
+        </Link>
+        <Link to="/movies/popular">
+          <MovieCard>인기있는</MovieCard>
+        </Link>
+        <Link to="/movies/top-rated">
+          <MovieCard>높은 평가를 받은</MovieCard>
+        </Link>
+        <Link to="/movies/up-coming">
+          <MovieCard>개봉 예정중인</MovieCard>
+        </Link>
       </MoviesContainer>
     </div>
   );
