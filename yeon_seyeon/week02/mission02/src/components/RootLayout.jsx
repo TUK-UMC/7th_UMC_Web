@@ -1,14 +1,26 @@
 // src/components/RootLayout.jsx
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar"; // Sidebar 컴포넌트 가져오기
-import ".."; // CSS 파일을 활용해 스타일 적용
+import Sidebar from "./Sidebar";
+import styled from "styled-components";
+
+const LayoutContainer = styled.div`
+  display: flex;
+  height: 100vh;
+`;
+
+const MainContent = styled.div`
+  flex: 1;
+  padding: 20px;
+  background-color: #000;
+  color: white;
+`;
 
 const RootLayout = () => {
   return (
-    <div className="layout-container">
+    <div className="LayoutContainer">
       <Sidebar /> {/* 사이드바 */}
-      <div className="main-content">
+      <div className="MainContent">
         <Outlet /> {/* 페이지 내용 */}
       </div>
     </div>
