@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import category1 from "../images/category1.png";
 import category2 from "../images/category2.png";
 import category3 from "../images/category3.png";
