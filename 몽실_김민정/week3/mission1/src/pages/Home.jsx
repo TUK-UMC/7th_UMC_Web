@@ -1,20 +1,13 @@
-import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Poster } from "../components/Poster";
 import { getPopularMovies } from "../apis/movieAPI";
+import { useGetMovies } from "../hooks/useGetMovies";
 
 function Home() {
-  const [movies, setMovies] = useState([]);
-  useEffect(() => {
-    const fetchMovies = async () => {
-      const movies = await getPopularMovies();
-      setMovies(movies);
-    };
-    fetchMovies();
-  }, []);
+  const movies = useGetMovies(getPopularMovies);
   return (
     <PosterWrapper>
-      {movies.map((movie) => (
+      {movies?.map((movie) => (
         <Poster movieData={movie} key={movie.id} />
       ))}
       ;
