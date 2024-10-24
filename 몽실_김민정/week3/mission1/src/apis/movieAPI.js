@@ -22,7 +22,7 @@ export const getPopularMovies = async () => {
     const movies = await instance.get(`popular?language=ko-US&page=1`);
     return movies.data.results;
   } catch (error) {
-    console.error("데이터를 불러오는데 실패하였습니다.");
+    throw error;
   }
 };
 
