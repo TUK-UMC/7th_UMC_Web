@@ -18,7 +18,7 @@ export const Sidebar = () => {
         찾기
       </MenuLink>
       <MenuLink
-        to={"/movies"}
+        to={"/category"}
         onMouseEnter={() => setHoveredIndex(1)}
         onMouseLeave={() => setHoveredIndex(-1)}
         $isHover={hoveredIndex === 1}

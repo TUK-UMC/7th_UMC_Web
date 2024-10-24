@@ -29,7 +29,7 @@ const CATEGORY = [
   },
 ];
 
-export const Movies = () => {
+export const Category = () => {
   const [hoveredCategory, setHoveredCategory] = useState(-1);
   return (
     <Container>
@@ -37,7 +37,7 @@ export const Movies = () => {
       <CategoryWrapper>
         {CATEGORY.map((category, index) => (
           <Link key={category.name} to={`/movies/${category.page}`}>
-            <Category
+            <Categories
               image={category.image}
               onMouseEnter={() => setHoveredCategory(index)}
               onMouseLeave={() => setHoveredCategory(-1)}
@@ -46,7 +46,7 @@ export const Movies = () => {
               <Tag>
                 <span>{category.name}</span>
               </Tag>
-            </Category>
+            </Categories>
           </Link>
         ))}
       </CategoryWrapper>
@@ -71,7 +71,7 @@ const Title = styled.h1`
   font-size: 35px;
 `;
 
-const Category = styled.div`
+const Categories = styled.div`
   background-image: ${({ image }) => `url(${image})`};
   background-size: cover;
   width: 100%;
