@@ -2,9 +2,20 @@ import styled from "styled-components";
 import { Poster } from "../components/Poster";
 import { getPopularMovies } from "../apis/movieAPI";
 import { useFetch } from "../hooks/useFetch";
+import { ReactComponent as Loading } from "../images/loadingIcon.svg";
+import { ErrorPage } from "./ErrorPage";
 
 function Home() {
   const { data, error, loading } = useFetch(getPopularMovies);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <ErrorPage />;
+  }
+
   return (
     <Container>
       <PosterWrapper>
@@ -12,11 +23,6 @@ function Home() {
           <Poster movieData={movie} key={movie.id} />
         ))}
       </PosterWrapper>
-      {error ? (
-        <h1>데이터를 불러오는 데 문제가 발생했습니다.</h1>
-      ) : (
-        loading && <h1>로딩 중</h1>
-      )}
     </Container>
   );
 }

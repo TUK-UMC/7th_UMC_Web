@@ -1,10 +1,10 @@
 import { styled } from "styled-components";
 
-export const NotFound = () => {
+export const ErrorPage = () => {
   return (
     <Container>
-      <h1>NotFound</h1>
-      페이지를 찾을 수 없습니다. 경로를 다시 확인해주세요.
+      <h1>ERROR</h1>
+      페이지를 불러오는데 오류가 발생하였습니다.
     </Container>
   );
 };

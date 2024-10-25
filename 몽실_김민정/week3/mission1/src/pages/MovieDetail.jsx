@@ -1,14 +1,33 @@
+import styled from "styled-components";
 import { useParams } from "react-router-dom";
+import { ReactComponent as Loading } from "../images/loadingIcon.svg";
 import { getMovieCredits, getMovieDetail } from "../apis/movieAPI";
 import { useFetch } from "../hooks/useFetch";
-import { formatImageURL } from "../apis/utils/formatImageURL";
-import styled from "styled-components";
+import { formatImageURL } from "../utils/formatImageURL";
 import { CircleProfile } from "../components/CircleProfile";
+import { ErrorPage } from "./ErrorPage";
 
 export const MovieDetail = () => {
   const { movieId } = useParams();
-  const { data: movieInfo } = useFetch(getMovieDetail, movieId);
-  const { data: credits } = useFetch(getMovieCredits, movieId);
+  const {
+    data: movieInfo,
+    loading: movieInfoLoading,
+    error: movieInfoError,
+  } = useFetch(getMovieDetail, movieId);
+  const {
+    data: credits,
+    loading: creditsLoading,
+    error: creditsError,
+  } = useFetch(getMovieCredits, movieId);
+
+  if (movieInfoLoading || creditsLoading) {
+    return <Loading />;
+  }
+
+  if (creditsError || movieInfoError) {
+    return <ErrorPage />;
+  }
+
   const { title, tagline, vote_average, overview, backdrop_path, genres } =
     movieInfo;
 
@@ -83,7 +102,7 @@ const SubInfo = styled.div`
 `;
 
 const TagLine = styled.h2`
-  font-size: 30px;
+  font-size: 25px;
   margin-top: 70px;
 `;
 
@@ -110,7 +129,7 @@ const ImageWrapper = styled.div`
 `;
 
 const Divider = styled.hr`
-  color: white;
+  color: ${({ theme }) => theme.colors.white};
   width: 40%;
   text-align: left;
   margin-left: 0;

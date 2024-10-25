@@ -37,7 +37,7 @@ const Container = styled.div`
   min-height: 100vh;
   overflow: auto;
   left: 0;
-  background-color: #282728;
+  background-color: ${({ theme }) => theme.colors.gray_200};
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -51,9 +51,9 @@ const MenuLink = styled(Link)`
   display: flex;
   gap: 10px;
   align-items: center;
-  border-bottom: 3px solid #282728;
+  border-bottom: 3px solid ${({ theme }) => theme.colors.gray_200};
 
   &:hover {
-    border-bottom-color: #9e9d9d;
+    border-bottom-color: ${({ theme }) => theme.colors.gray_100};
   }
 `;

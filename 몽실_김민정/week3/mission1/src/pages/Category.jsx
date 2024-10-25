@@ -6,29 +6,6 @@ import category4 from "../images/category4.png";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const CATEGORY = [
-  {
-    name: "현재 상영중인",
-    image: category1,
-    page: "now-playing",
-  },
-  {
-    name: "인기있는",
-    image: category2,
-    page: "popular",
-  },
-  {
-    name: "높은 평가를 받은",
-    image: category3,
-    page: "top-rated",
-  },
-  {
-    name: "개봉 예정중인",
-    image: category4,
-    page: "up-coming",
-  },
-];
-
 export const Category = () => {
   const [hoveredCategory, setHoveredCategory] = useState(-1);
   return (
@@ -53,6 +30,29 @@ export const Category = () => {
     </Container>
   );
 };
+
+const CATEGORY = [
+  {
+    name: "현재 상영중인",
+    image: category1,
+    page: "now-playing",
+  },
+  {
+    name: "인기있는",
+    image: category2,
+    page: "popular",
+  },
+  {
+    name: "높은 평가를 받은",
+    image: category3,
+    page: "top-rated",
+  },
+  {
+    name: "개봉 예정중인",
+    image: category4,
+    page: "up-coming",
+  },
+];
 
 const Container = styled.div`
   width: 100%;
@@ -81,15 +81,15 @@ const Categories = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ff438f;
+  color: ${({ theme }) => theme.colors.primary};
   font-weight: 600;
   font-size: 18px;
   position: relative;
   isolation: isolate;
-  border: 3px solid #282728;
+  border: 3px solid ${({ theme }) => theme.colors.gray_200};
 
   &:hover {
-    border-color: #9e9d9d;
+    border-color: ${({ theme }) => theme.colors.gray_100};
   }
 `;
 

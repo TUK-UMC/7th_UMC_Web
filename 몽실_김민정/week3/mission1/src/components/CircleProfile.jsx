@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { formatImageURL } from "../apis/utils/formatImageURL";
+import { formatImageURL } from "../utils/formatImageURL";
 
 export const CircleProfile = ({ name, department, profileImage }) => {
   return (
@@ -22,7 +22,7 @@ const ProfileImage = styled.div`
   width: 100px;
   height: 100px;
   border-radius: 100px;
-  background-color: #515151;
+  background-color: ${({ theme }) => theme.colors.gray_300};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
