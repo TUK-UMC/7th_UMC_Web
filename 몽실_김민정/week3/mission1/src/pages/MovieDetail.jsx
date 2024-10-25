@@ -9,11 +9,13 @@ import { ErrorPage } from "./ErrorPage";
 
 export const MovieDetail = () => {
   const { movieId } = useParams();
+
   const {
     data: movieInfo,
     loading: movieInfoLoading,
     error: movieInfoError,
   } = useFetch(getMovieDetail, movieId);
+
   const {
     data: credits,
     loading: creditsLoading,
@@ -30,8 +32,6 @@ export const MovieDetail = () => {
 
   const { title, tagline, vote_average, overview, backdrop_path, genres } =
     movieInfo;
-
-  console.log(movieInfo);
 
   return (
     <Container>
