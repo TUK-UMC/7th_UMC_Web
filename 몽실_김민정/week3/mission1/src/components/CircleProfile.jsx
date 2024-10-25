@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { formatImageURL } from "../apis/utils/formatImageURL";
 
 export const CircleProfile = ({ name, department, profileImage }) => {
@@ -35,6 +35,8 @@ const InfoWrapper = styled.div`
   text-align: center;
   .profile-name {
     font-size: 18px;
+    height: 33px;
+    font-weight: 500;
   }
   .profile-department {
     font-size: 12px;

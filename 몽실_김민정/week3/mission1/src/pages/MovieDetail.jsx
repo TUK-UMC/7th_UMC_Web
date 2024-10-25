@@ -9,14 +9,10 @@ export const MovieDetail = () => {
   const { movieId } = useParams();
   const { data: movieInfo } = useFetch(getMovieDetail, movieId);
   const { data: credits } = useFetch(getMovieCredits, movieId);
-  const { title, tagline, vote_average, overview, poster_path, genres } =
+  const { title, tagline, vote_average, overview, backdrop_path, genres } =
     movieInfo;
 
-  console.log(credits);
-
-  // credits.cast.map((cast) => {
-  //   return console.log(cast);
-  // });
+  console.log(movieInfo);
 
   return (
     <Container>
@@ -33,9 +29,10 @@ export const MovieDetail = () => {
           <OverView>{overview}</OverView>
         </InfoWrapper>
         <ImageWrapper>
-          <img src={formatImageURL(poster_path)} alt='영화 포스터' />
+          <img src={formatImageURL(backdrop_path)} alt='영화 포스터' />
         </ImageWrapper>
       </MovieInfoWrapper>
+      <Divider />
       <CreditsWrapper>
         <h3>감독/출연</h3>
         <CreditsScroll>
@@ -67,9 +64,7 @@ const OverView = styled.p`
   overflow: hidden;
   opacity: 0.6;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  height: 200px;
 `;
 
 const InfoWrapper = styled.div`
@@ -78,6 +73,7 @@ const InfoWrapper = styled.div`
 
   h1 {
     font-size: 50px;
+    margin-bottom: 10px;
   }
 `;
 
@@ -88,10 +84,11 @@ const SubInfo = styled.div`
 
 const TagLine = styled.h2`
   font-size: 30px;
+  margin-top: 70px;
 `;
 
 const ImageWrapper = styled.div`
-  width: 40%;
+  width: 60%;
   height: 400px;
   display: flex;
   justify-content: center;
@@ -101,13 +98,22 @@ const ImageWrapper = styled.div`
     width: 100%;
     height: 100%;
     mask-image: linear-gradient(
-      to bottom left,
-      rgba(0, 0, 0, 1) 16%,
-      rgba(0, 0, 0, 0) 76%
-    );
+        to left,
+        rgba(0, 0, 0, 0.9) 50%,
+        rgba(0, 0, 0, 0) 90%
+      ),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 50%, rgba(0, 0, 0, 0) 90%);
+    mask-composite: intersect;
     margin-left: auto;
     object-fit: cover;
   }
+`;
+
+const Divider = styled.hr`
+  color: white;
+  width: 40%;
+  text-align: left;
+  margin-left: 0;
 `;
 
 const CreditsWrapper = styled.div`
@@ -121,5 +127,6 @@ const CreditsScroll = styled.div`
   height: 400px;
   display: flex;
   overflow-x: scroll;
+  overflow-y: hidden;
   gap: 20px;
 `;
