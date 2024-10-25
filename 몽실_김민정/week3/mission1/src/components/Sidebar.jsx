@@ -32,10 +32,10 @@ export const Sidebar = () => {
 
 const Container = styled.div`
   padding: 30px;
-  width: 200px;
+  width: 10%;
   height: auto;
   min-height: 100vh;
-  overflow: auto;
+  overflow-y: auto;
   left: 0;
   background-color: ${({ theme }) => theme.colors.gray_200};
   display: flex;
