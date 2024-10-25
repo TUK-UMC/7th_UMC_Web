@@ -13,7 +13,7 @@ export const getNowPlayingMovies = async () => {
     const movies = await instance.get(`now_playing?language=ko-US&page=1}`);
     return movies.data.results;
   } catch (error) {
-    console.error("데이터를 불러오는데 실패하였습니다.");
+    throw error;
   }
 };
 
@@ -31,7 +31,7 @@ export const getTopRatedMovies = async () => {
     const movies = await instance.get(`top_rated?language=ko-US&page=1`);
     return movies.data.results;
   } catch (error) {
-    console.error("데이터를 불러오는데 실패하였습니다.");
+    throw error;
   }
 };
 
@@ -40,6 +40,26 @@ export const getUpComingMovies = async () => {
     const movies = await instance.get(`upcoming?language=ko-US&page=1`);
     return movies.data.results;
   } catch (error) {
-    console.error("데이터를 불러오는데 실패하였습니다.");
+    throw error;
+  }
+};
+
+export const getMovieDetail = async (movieId) => {
+  try {
+    const movies = await instance.get(`${movieId}?language=ko-US&page=1}`);
+    return movies.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getMovieCredits = async (movieId) => {
+  try {
+    const movies = await instance.get(
+      `${movieId}/credits?language=ko-US&page=1}`
+    );
+    return movies.data;
+  } catch (error) {
+    throw error;
   }
 };

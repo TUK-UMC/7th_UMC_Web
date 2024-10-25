@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { RootLayout } from "./layout/root-layout";
-import Home from "./pages/Home";
+import Home from "./pages//Home";
 import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
 import { Search } from "./pages/Search";
@@ -11,6 +11,7 @@ import { TopRated } from "./pages/categories/TopRated";
 import { UpComing } from "./pages/categories/UpComing";
 import { NotFound } from "./pages/NotFound";
 import { Category } from "./pages/Category";
+import { MovieDetail } from "./pages/MovieDetail";
 
 const router = createBrowserRouter([
   {
@@ -54,8 +55,13 @@ const router = createBrowserRouter([
         path: "/movies/up-coming",
         element: <UpComing />,
       },
+      {
+        path: "/movies/:movieId",
+        element: <MovieDetail />,
+      },
     ],
   },
+  {},
 ]);
 
 function App() {

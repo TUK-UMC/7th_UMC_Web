@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useFetch = (func) => {
+export const useFetch = (func, ...args) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -8,7 +8,7 @@ export const useFetch = (func) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await func();
+        const result = await func(args);
         setData(result);
       } catch (error) {
         setError(error);
@@ -17,7 +17,7 @@ export const useFetch = (func) => {
       }
     };
     fetchData();
-  }, [func]);
+  }, []);
 
   return { data, loading, error };
 };
