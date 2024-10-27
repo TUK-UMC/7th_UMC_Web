@@ -20,7 +20,11 @@ const MovieImg = styled.img`
     height: 240px;
     border-radius: 12px;
     transition: opacity 0.3s ease-in-out;
-    filter: ${props =>(props.hoverOn ? 'brightness(50%)' : 'brightness(100%)')};
+    filter: brightness(100%);
+    
+    &:hover {
+      filter: brightness(50%);
+    }
 `
 const MovieTitle = styled.h4`
     margin: 4px 0;
@@ -35,23 +39,20 @@ const MovieDate = styled.p`
     margin: 0;
 `
 
-const Card = (props) =>{
-    const {src, title, date} = props
-    const [hoverOn, setHoveron] = useState(null);
+const Card = ({src, title, date, id}) =>{
     const navigate = useNavigate();
     const handleClick = () =>{
-        navigate(`movies/${props.id}`);
+        navigate(`movies/${id}`);
     }
+    console.log(id)
     
     return(
         <CardDiv
             onClick={handleClick}
-            key={props.id} 
-            onMouseEnter={() => setHoveron(props)}
-            onMouseLeave={() => setHoveron(null)}
+            key={id} 
         >
             <MovieImg src={"https://image.tmdb.org/t/p/original" +src} 
-            hoverOn={hoverOn}
+            // hoverOn={hoverOn}
             />
             <MovieTitle>{title}</MovieTitle>
             <MovieDate>{date}</MovieDate>

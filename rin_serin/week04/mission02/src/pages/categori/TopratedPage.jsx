@@ -4,6 +4,8 @@ import styled from "styled-components";
 import useCustomFetch from "../../hooks/useCustomFetch";
 import Card from "../../components/Card";
 import { axiosInstance } from "../../apis/axios-instance";
+import Loading from "../../components/Loading";
+import Error from "../../components/Error";
 
 const TopratedList = styled.div`
     width: 100%;
@@ -19,17 +21,14 @@ const TopratedList = styled.div`
 function TopratedPage (){
 
     const {datas:movies, isLoading, isError} = useCustomFetch('/movie/top_rated?language=en-US&page=1')
-    console.log(movies);
+    // console.log(movies);
 
-    if(isLoading) {
-        return <div>
-            <h1 style={{margin:'10px 10px'}}>영화를 불러오는 중입니다...</h1>
-        </div>
+    if (isLoading) {
+        return <Loading />;
     }
-    if(isError) {
-        return <div>
-            <h1 style={{margin:'10px 10px'}}>에러</h1>
-        </div>
+
+    if (isError) {
+        return <Error />;
     }
 
     return(
