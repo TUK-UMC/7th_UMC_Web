@@ -18,4 +18,5 @@ export const RootLayout = () => {
 
 const RowDiv = styled.div`
   display: flex;
+  padding-right: 20px;
 `;

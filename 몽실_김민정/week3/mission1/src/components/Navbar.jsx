@@ -15,8 +15,8 @@ export const Navbar = () => {
 };
 
 const Container = styled.div`
-  height: 100px;
-  background-color: #282728;
+  height: 70px;
+  background-color: ${({ theme }) => theme.colors.gray_200};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,7 +24,7 @@ const Container = styled.div`
 `;
 
 const Logo = styled(Link)`
-  color: #ff438f;
+  color: ${({ theme }) => theme.colors.primary};
   text-decoration: none;
   font-size: 32px;
   font-weight: 800;
@@ -32,34 +32,32 @@ const Logo = styled(Link)`
 
 const UserDiv = styled.div`
   display: flex;
-  gap: 30px;
+  gap: 10px;
 `;
 
-const SignInLink = styled(Link)`
-  width: 60px;
-  color: white;
-  font-size: 18px;
+const JoinButton = styled(Link)`
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 17px;
+  font-weight: 500;
   text-decoration: none;
-  background-color: #282728;
   padding: 10px 20px;
   border-radius: 10px;
   cursor: pointer;
+`;
+
+const SignInLink = styled(JoinButton)`
+  width: 60px;
+  background-color: ${({ theme }) => theme.colors.gray_200};
 
   &:hover {
     text-decoration: underline;
   }
 `;
 
-const SignUpLink = styled(Link)`
-  color: white;
-  font-size: 18px;
-  text-decoration: none;
-  background-color: #ff438f;
-  padding: 10px 20px;
-  border-radius: 10px;
-  cursor: pointer;
+const SignUpLink = styled(JoinButton)`
+  background-color: ${({ theme }) => theme.colors.primary};
 
   &:hover {
-    background-color: #da3376;
+    background-color: ${({ theme }) => theme.colors.primary_100};
   }
 `;

@@ -1,17 +1,17 @@
-import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { RootLayout } from "./layout/root-layout";
-import Home from "./pages/Home";
+import Home from "./pages//Home";
 import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
 import { Search } from "./pages/Search";
-import { Movies } from "./pages/Movies";
 import { NowPlaying } from "./pages/categories/NowPlaying";
 import { Popular } from "./pages/categories/Popular";
 import { TopRated } from "./pages/categories/TopRated";
 import { UpComing } from "./pages/categories/UpComing";
 import { NotFound } from "./pages/NotFound";
+import { Category } from "./pages/Category";
+import { MovieDetail } from "./pages/MovieDetail";
 
 const router = createBrowserRouter([
   {
@@ -36,8 +36,8 @@ const router = createBrowserRouter([
         element: <Search />,
       },
       {
-        path: "movies",
-        element: <Movies />,
+        path: "Category",
+        element: <Category />,
       },
       {
         path: "/movies/now-playing",
@@ -55,8 +55,13 @@ const router = createBrowserRouter([
         path: "/movies/up-coming",
         element: <UpComing />,
       },
+      {
+        path: "/movies/:movieId",
+        element: <MovieDetail />,
+      },
     ],
   },
+  {},
 ]);
 
 function App() {

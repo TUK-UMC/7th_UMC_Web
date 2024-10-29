@@ -1,26 +1,38 @@
-import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Poster } from "../components/Poster";
 import { getPopularMovies } from "../apis/movieAPI";
+import { useFetch } from "../hooks/useFetch";
+import { ReactComponent as Loading } from "../images/loadingIcon.svg";
+import { ErrorPage } from "./ErrorPage";
 
 function Home() {
-  const [movies, setMovies] = useState([]);
-  useEffect(() => {
-    const fetchMovies = async () => {
-      const movies = await getPopularMovies();
-      setMovies(movies);
-    };
-    fetchMovies();
-  }, []);
+  const { data, error, loading } = useFetch(getPopularMovies);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <ErrorPage />;
+  }
+
   return (
-    <PosterWrapper>
-      {movies.map((movie) => (
-        <Poster movieData={movie} key={movie.id} />
-      ))}
-      ;
-    </PosterWrapper>
+    <Container>
+      <PosterWrapper>
+        {data?.map((movie) => (
+          <Poster movieData={movie} key={movie.id} />
+        ))}
+      </PosterWrapper>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  overflow-x: hidden;
+`;
 
 const PosterWrapper = styled.div`
   width: 100%;

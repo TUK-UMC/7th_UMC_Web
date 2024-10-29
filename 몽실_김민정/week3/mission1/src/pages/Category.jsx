@@ -1,10 +1,35 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import category1 from "../images/category1.png";
 import category2 from "../images/category2.png";
 import category3 from "../images/category3.png";
 import category4 from "../images/category4.png";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+
+export const Category = () => {
+  const [hoveredCategory, setHoveredCategory] = useState(-1);
+  return (
+    <Container>
+      <Title>카테고리</Title>
+      <CategoryWrapper>
+        {CATEGORY.map((category, index) => (
+          <Link key={category.name} to={`/movies/${category.page}`}>
+            <Categories
+              image={category.image}
+              onMouseEnter={() => setHoveredCategory(index)}
+              onMouseLeave={() => setHoveredCategory(-1)}
+              $isHover={hoveredCategory === index}
+            >
+              <Tag>
+                <span>{category.name}</span>
+              </Tag>
+            </Categories>
+          </Link>
+        ))}
+      </CategoryWrapper>
+    </Container>
+  );
+};
 
 const CATEGORY = [
   {
@@ -29,31 +54,6 @@ const CATEGORY = [
   },
 ];
 
-export const Movies = () => {
-  const [hoveredCategory, setHoveredCategory] = useState(-1);
-  return (
-    <Container>
-      <Title>카테고리</Title>
-      <CategoryWrapper>
-        {CATEGORY.map((category, index) => (
-          <Link key={category.name} to={`/movies/${category.page}`}>
-            <Category
-              image={category.image}
-              onMouseEnter={() => setHoveredCategory(index)}
-              onMouseLeave={() => setHoveredCategory(-1)}
-              $isHover={hoveredCategory === index}
-            >
-              <Tag>
-                <span>{category.name}</span>
-              </Tag>
-            </Category>
-          </Link>
-        ))}
-      </CategoryWrapper>
-    </Container>
-  );
-};
-
 const Container = styled.div`
   width: 100%;
   padding: 0px 20px;
@@ -71,7 +71,7 @@ const Title = styled.h1`
   font-size: 35px;
 `;
 
-const Category = styled.div`
+const Categories = styled.div`
   background-image: ${({ image }) => `url(${image})`};
   background-size: cover;
   width: 100%;
@@ -81,15 +81,15 @@ const Category = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ff438f;
+  color: ${({ theme }) => theme.colors.primary};
   font-weight: 600;
   font-size: 18px;
   position: relative;
   isolation: isolate;
-  border: 3px solid #282728;
+  border: 3px solid ${({ theme }) => theme.colors.gray_200};
 
   &:hover {
-    border-color: #9e9d9d;
+    border-color: ${({ theme }) => theme.colors.gray_100};
   }
 `;
 
