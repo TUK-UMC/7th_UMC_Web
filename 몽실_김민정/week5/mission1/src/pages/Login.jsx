@@ -1,13 +1,46 @@
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 export const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid },
+  } = useForm({
+    mode: "onBlur",
+  });
+  const registers = {
+    email: register("email", {
+      required: "이메일을 입력해주세요.",
+    }),
+    password: register("password", {
+      required: "비밀번호를 입력해주세요",
+    }),
+  };
+
+  const onSubmit = (data) => {
+    console.log(data);
+    errors && console.log(errors);
+  };
+
   return (
     <Container>
       <h1>로그인</h1>
-      <Form>
-        <Input placeholder='아이디를 입력해주세요' />
-        <Input placeholder='비밀번호를 입력해주세요' />
-        <Button>로그인</Button>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <InputWrapper>
+          <Input placeholder='아이디를 입력해주세요' {...registers.email} />
+          <ErrorMessage>{errors.email?.message}</ErrorMessage>
+        </InputWrapper>
+        <InputWrapper>
+          <Input
+            placeholder='비밀번호를 입력해주세요'
+            {...registers.password}
+          />
+          <ErrorMessage>{errors.password?.message}</ErrorMessage>
+        </InputWrapper>
+        <Button $isSubmitting={isSubmitting} $isValid={isValid}>
+          로그인
+        </Button>
       </Form>
     </Container>
   );
@@ -29,7 +62,11 @@ const Form = styled.form`
   width: 300px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
+`;
+
+const InputWrapper = styled.div`
+  height: 50px;
 `;
 
 const Input = styled.input`
@@ -39,12 +76,25 @@ const Input = styled.input`
   border: none;
 `;
 
+const ErrorMessage = styled.p`
+  font-size: 12px;
+  color: red;
+  margin: 7px 2px;
+`;
+
 const Button = styled.button`
   width: 100%;
   padding: 13px 15px;
   border-radius: 7px;
-  background-color: ${({ theme }) => theme.colors.primary};
+  border: none;
+  background-color: ${({ theme, $isSubmitting, $isValid }) =>
+    $isSubmitting || !$isValid ? theme.colors.gray_100 : theme.colors.primary};
   font-size: 18px;
   color: ${({ theme }) => theme.colors.white};
   font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    background-color: ${({ theme, $isValid }) =>
+      $isValid && theme.colors.primary_100};
+  }
 `;
