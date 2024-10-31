@@ -1,13 +1,18 @@
+import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { object, string } from "yup";
-import styled from "styled-components";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ERROR_MESSAGE } from "../constants/errorMessage";
 
 export const Login = () => {
   const userSchema = object().shape({
-    email: string().email().required(ERROR_MESSAGE.EMAIL.REQUIRED),
-    password: string().required(ERROR_MESSAGE.PASSWORD.REQUIRED),
+    email: string()
+      .email(ERROR_MESSAGE.EMAIL.VALID)
+      .required(ERROR_MESSAGE.EMAIL.REQUIRED),
+    password: string()
+      .required(ERROR_MESSAGE.PASSWORD.REQUIRED)
+      .min(8, ERROR_MESSAGE.PASSWORD.LENGTH)
+      .max(16, ERROR_MESSAGE.PASSWORD.LENGTH),
   });
 
   const {
@@ -15,7 +20,7 @@ export const Login = () => {
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
   } = useForm({
-    mode: "onBlur",
+    mode: "onTouched",
     resolver: yupResolver(userSchema),
   });
 
