@@ -1,26 +1,30 @@
 import { useForm } from "react-hook-form";
+import { object, string } from "yup";
 import styled from "styled-components";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 export const Login = () => {
+  const userSchema = object().shape({
+    email: string().email().required("이메일을 입력해주세요."),
+    password: string().required("비밀번호를 입력해주세요."),
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
   } = useForm({
     mode: "onBlur",
+    resolver: yupResolver(userSchema),
   });
+
   const registers = {
-    email: register("email", {
-      required: "이메일을 입력해주세요.",
-    }),
-    password: register("password", {
-      required: "비밀번호를 입력해주세요",
-    }),
+    email: register("email"),
+    password: register("password"),
   };
 
   const onSubmit = (data) => {
     console.log(data);
-    errors && console.log(errors);
   };
 
   return (
@@ -93,6 +97,7 @@ const Button = styled.button`
   color: ${({ theme }) => theme.colors.white};
   font-weight: 600;
   cursor: pointer;
+
   &:hover {
     background-color: ${({ theme, $isValid }) =>
       $isValid && theme.colors.primary_100};
