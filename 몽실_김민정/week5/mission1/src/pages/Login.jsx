@@ -2,11 +2,12 @@ import { useForm } from "react-hook-form";
 import { object, string } from "yup";
 import styled from "styled-components";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { ERROR_MESSAGE } from "../constants/errorMessage";
 
 export const Login = () => {
   const userSchema = object().shape({
-    email: string().email().required("이메일을 입력해주세요."),
-    password: string().required("비밀번호를 입력해주세요."),
+    email: string().email().required(ERROR_MESSAGE.EMAIL.REQUIRED),
+    password: string().required(ERROR_MESSAGE.PASSWORD.REQUIRED),
   });
 
   const {
@@ -32,12 +33,15 @@ export const Login = () => {
       <h1>로그인</h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputWrapper>
-          <Input placeholder='아이디를 입력해주세요' {...registers.email} />
+          <Input
+            placeholder={ERROR_MESSAGE.EMAIL.REQUIRED}
+            {...registers.email}
+          />
           <ErrorMessage>{errors.email?.message}</ErrorMessage>
         </InputWrapper>
         <InputWrapper>
           <Input
-            placeholder='비밀번호를 입력해주세요'
+            placeholder={ERROR_MESSAGE.PASSWORD.REQUIRED}
             {...registers.password}
           />
           <ErrorMessage>{errors.password?.message}</ErrorMessage>
