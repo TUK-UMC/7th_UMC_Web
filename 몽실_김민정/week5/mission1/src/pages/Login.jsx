@@ -1,63 +1,52 @@
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
-import { object, string } from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { ERROR_MESSAGE } from "../constants/errorMessage";
+import { useState } from "react";
 
 export const Login = () => {
-  const userSchema = object().shape({
-    email: string()
-      .email(ERROR_MESSAGE.EMAIL.VALID)
-      .required(ERROR_MESSAGE.EMAIL.REQUIRED),
-    password: string()
-      .required(ERROR_MESSAGE.PASSWORD.REQUIRED)
-      .min(8, ERROR_MESSAGE.PASSWORD.LENGTH)
-      .max(16, ERROR_MESSAGE.PASSWORD.LENGTH),
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+  });
+  const [touched, setTouched] = useState({
+    email: false,
+    password: false,
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting, isValid },
-  } = useForm({
-    mode: "onTouched",
-    resolver: yupResolver(userSchema),
-  });
-
-  const registers = {
-    email: register("email"),
-    password: register("password"),
+  const handleChangeInput = (name, value) => {
+    setValues({
+      ...values,
+      [name]: value,
+    });
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const handleBlur = (name) => {
+    setTouched({
+      ...touched,
+      [name]: true,
+    });
   };
 
   return (
     <Container>
       <h1>로그인</h1>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form>
         <InputWrapper>
           <Input
             placeholder={ERROR_MESSAGE.EMAIL.REQUIRED}
-            {...registers.email}
+            onBlur={() => handleBlur("email")}
+            onChange={(e) => handleChangeInput("email", e.target.value)}
           />
-          <ErrorMessage>{errors.email?.message}</ErrorMessage>
+          <ErrorMessage></ErrorMessage>
         </InputWrapper>
         <InputWrapper>
           <Input
             placeholder={ERROR_MESSAGE.PASSWORD.REQUIRED}
-            {...registers.password}
+            onBlur={() => handleBlur("password")}
+            onChange={(e) => handleChangeInput("password", e.target.value)}
           />
-          <ErrorMessage>{errors.password?.message}</ErrorMessage>
+          <ErrorMessage></ErrorMessage>
         </InputWrapper>
-        <Button
-          $isSubmitting={isSubmitting}
-          $isValid={isValid}
-          disabled={!isValid}
-        >
-          로그인
-        </Button>
+        <Button>로그인</Button>
       </Form>
     </Container>
   );
