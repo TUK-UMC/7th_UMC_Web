@@ -51,7 +51,11 @@ export const Login = () => {
           />
           <ErrorMessage>{errors.password?.message}</ErrorMessage>
         </InputWrapper>
-        <Button $isSubmitting={isSubmitting} $isValid={isValid}>
+        <Button
+          $isSubmitting={isSubmitting}
+          $isValid={isValid}
+          disabled={!isValid}
+        >
           로그인
         </Button>
       </Form>
