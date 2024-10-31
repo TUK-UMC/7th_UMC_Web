@@ -62,13 +62,9 @@ const validationSchema = yup.object({
 });
 
 function SignupPage() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm({
+  const { register, handleSubmit, formState: { errors, isValid } } = useForm({
     resolver: yupResolver(validationSchema),
-    mode: 'onChange', // 유효성 검사가 즉시 반영
+    mode: 'onChange',
   });
 
   const onSubmit = (data) => {

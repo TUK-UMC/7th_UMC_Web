@@ -49,21 +49,13 @@ const ErrorMessage = styled.div`
 
 const validationSchema = yup.object({
   email: yup.string().email('유효한 이메일 주소를 입력해주세요.').required('이메일은 필수 항목입니다.'),
-  password: yup
-    .string()
-    .min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
-    .max(16, '비밀번호는 최대 16자이어야 합니다.')
-    .required('비밀번호는 필수 항목입니다.'),
+  password: yup.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.').required('비밀번호는 필수 항목입니다.'),
 });
 
 function LoginPage() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm({
+  const { register, handleSubmit, formState: { errors, isValid } } = useForm({
     resolver: yupResolver(validationSchema),
-    mode: 'onChange', // 유효성 검사가 즉시 반영되도록 설정
+    mode: 'onChange',
   });
 
   const onSubmit = (data) => {
