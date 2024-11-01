@@ -1,0 +1,32 @@
+.TodoList {
+    Width : 500px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+}
+
+.TodoList .ListBefore{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.TodoList .ListAfter {
+    Width : 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.TodoList h1{
+    height : 18px;
+    padding-bottom : 4px;
+    border-bottom: 3px solid rgb(193 193 193);
+    font-size : 15px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color : black;
+}
