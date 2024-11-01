@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const useForm = (initialValue) => {
+export const useForm = ({ initialValue, validate }) => {
   const [values, setValues] = useState(initialValue);
   const [touched, setTouched] = useState({});
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState(initialValue);
 
   const handleChangeInput = (name, value) => {
     setValues({
@@ -26,6 +26,11 @@ export const useForm = (initialValue) => {
 
     return { value, onChange, onBlur };
   };
+
+  useEffect(() => {
+    const newErrors = validate(values);
+    setErrors(newErrors);
+  }, [validate, values]);
 
   return { values, errors, touched, getTextInputProps };
 };

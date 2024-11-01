@@ -1,63 +1,44 @@
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
-import { object, string } from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { ERROR_MESSAGE } from "../constants/errorMessage";
+import { useForm } from "../hooks/useForm";
+import { validateLogin } from "../utils/validate";
 
 export const Login = () => {
-  const userSchema = object().shape({
-    email: string()
-      .email(ERROR_MESSAGE.EMAIL.VALID)
-      .required(ERROR_MESSAGE.EMAIL.REQUIRED),
-    password: string()
-      .required(ERROR_MESSAGE.PASSWORD.REQUIRED)
-      .min(8, ERROR_MESSAGE.PASSWORD.LENGTH)
-      .max(16, ERROR_MESSAGE.PASSWORD.LENGTH),
+  const login = useForm({
+    initialValue: {
+      email: "",
+      password: "",
+    },
+    validate: validateLogin,
   });
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting, isValid },
-  } = useForm({
-    mode: "onTouched",
-    resolver: yupResolver(userSchema),
-  });
-
-  const registers = {
-    email: register("email"),
-    password: register("password"),
-  };
-
-  const onSubmit = (data) => {
-    console.log(data);
-  };
 
   return (
     <Container>
       <h1>로그인</h1>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form>
         <InputWrapper>
           <Input
+            type='email'
             placeholder={ERROR_MESSAGE.EMAIL.REQUIRED}
-            {...registers.email}
+            error={login.errors.email && login.touched.email}
+            {...login.getTextInputProps("email")}
           />
-          <ErrorMessage>{errors.email?.message}</ErrorMessage>
+          {login.touched.email && (
+            <ErrorMessage>{login.errors.email}</ErrorMessage>
+          )}
         </InputWrapper>
         <InputWrapper>
           <Input
+            type='password'
             placeholder={ERROR_MESSAGE.PASSWORD.REQUIRED}
-            {...registers.password}
+            error={login.errors.password && login.touched.password}
+            {...login.getTextInputProps("password")}
           />
-          <ErrorMessage>{errors.password?.message}</ErrorMessage>
+          {login.touched.password && (
+            <ErrorMessage>{login.errors.password}</ErrorMessage>
+          )}
         </InputWrapper>
-        <Button
-          $isSubmitting={isSubmitting}
-          $isValid={isValid}
-          disabled={!isValid}
-        >
-          로그인
-        </Button>
+        <Button>로그인</Button>
       </Form>
     </Container>
   );
@@ -91,6 +72,9 @@ const Input = styled.input`
   padding: 13px 15px;
   border-radius: 7px;
   border: none;
+
+  border: ${({ error, theme }) =>
+    error ? "2px solid red" : `1px solid ${theme.colors.gray_100}`};
 `;
 
 const ErrorMessage = styled.p`

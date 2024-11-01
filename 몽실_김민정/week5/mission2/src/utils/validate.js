@@ -18,5 +18,5 @@ export const validateUser = (values) => {
 };
 
 export const validateLogin = (values) => {
-  validateUser(values);
+  return validateUser(values);
 };
