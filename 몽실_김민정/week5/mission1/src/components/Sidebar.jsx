@@ -34,6 +34,7 @@ const Container = styled.div`
   padding: 30px;
   width: 10%;
   height: 100%;
+  /* min-height: 100vh; */
   overflow-y: auto;
   left: 0;
   background-color: ${({ theme }) => theme.colors.gray_200};

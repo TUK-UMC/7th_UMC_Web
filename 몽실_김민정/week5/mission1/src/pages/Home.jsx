@@ -29,11 +29,9 @@ function Home() {
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  overflow-x: hidden;
 `;
 
 const PosterWrapper = styled.div`

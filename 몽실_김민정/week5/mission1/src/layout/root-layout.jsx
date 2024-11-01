@@ -31,5 +31,6 @@ const ContentArea = styled.div`
 
 const RowDiv = styled.div`
   display: flex;
+  padding-right: 20px;
   flex-grow: 1;
 `;
