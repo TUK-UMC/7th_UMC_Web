@@ -41,7 +41,7 @@ export const Signup = () => {
 
   return (
     <Container>
-      <h1>로그인</h1>
+      <h1>회원가입</h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
           type='EMAIL'
@@ -63,7 +63,7 @@ export const Signup = () => {
           $isValid={isValid}
           disabled={!isValid}
         >
-          로그인
+          제출
         </Button>
       </Form>
     </Container>
