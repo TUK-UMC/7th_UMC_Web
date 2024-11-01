@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ERROR_MESSAGE } from "../constants/errorMessage";
+import { Input } from "../components/Input";
 
 export const Login = () => {
   const userSchema = object().shape({
@@ -20,7 +21,7 @@ export const Login = () => {
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
   } = useForm({
-    mode: "onTouched",
+    mode: "onChange",
     resolver: yupResolver(userSchema),
   });
 
@@ -37,20 +38,16 @@ export const Login = () => {
     <Container>
       <h1>로그인</h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <InputWrapper>
-          <Input
-            placeholder={ERROR_MESSAGE.EMAIL.REQUIRED}
-            {...registers.email}
-          />
-          <ErrorMessage>{errors.email?.message}</ErrorMessage>
-        </InputWrapper>
-        <InputWrapper>
-          <Input
-            placeholder={ERROR_MESSAGE.PASSWORD.REQUIRED}
-            {...registers.password}
-          />
-          <ErrorMessage>{errors.password?.message}</ErrorMessage>
-        </InputWrapper>
+        <Input
+          type='EMAIL'
+          errorMessage={errors.email?.message}
+          {...registers.email}
+        />
+        <Input
+          type='PASSWORD'
+          errorMessage={errors.password?.message}
+          {...registers.password}
+        />
         <Button
           $isSubmitting={isSubmitting}
           $isValid={isValid}
@@ -82,22 +79,22 @@ const Form = styled.form`
   gap: 30px;
 `;
 
-const InputWrapper = styled.div`
-  height: 50px;
-`;
+// const InputWrapper = styled.div`
+//   height: 50px;
+// `;
 
-const Input = styled.input`
-  width: 100%;
-  padding: 13px 15px;
-  border-radius: 7px;
-  border: none;
-`;
+// const Input = styled.input`
+//   width: 100%;
+//   padding: 13px 15px;
+//   border-radius: 7px;
+//   border: none;
+// `;
 
-const ErrorMessage = styled.p`
-  font-size: 12px;
-  color: red;
-  margin: 7px 2px;
-`;
+// const ErrorMessage = styled.p`
+//   font-size: 12px;
+//   color: red;
+//   margin: 7px 2px;
+// `;
 
 const Button = styled.button`
   width: 100%;
