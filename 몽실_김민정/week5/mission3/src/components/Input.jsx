@@ -7,7 +7,7 @@ export const Input = forwardRef(({ type, errorMessage, ...rest }, ref) => {
     <InputWrapper>
       <StyledInput
         ref={ref}
-        type={type}
+        type={type === "PASSWORD_CHECK" ? "password" : type}
         placeholder={PLACEHOLDER[type]}
         {...rest}
       />

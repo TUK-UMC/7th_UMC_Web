@@ -8,7 +8,7 @@ import { Input } from "../components/Input";
 export const Login = () => {
   const userSchema = object().shape({
     email: string()
-      .email(ERROR_MESSAGE.EMAIL.VALID)
+      .email(ERROR_MESSAGE.EMAIL.INVALID)
       .required(ERROR_MESSAGE.EMAIL.REQUIRED),
     password: string()
       .required(ERROR_MESSAGE.PASSWORD.REQUIRED)
@@ -78,23 +78,6 @@ const Form = styled.form`
   flex-direction: column;
   gap: 30px;
 `;
-
-// const InputWrapper = styled.div`
-//   height: 50px;
-// `;
-
-// const Input = styled.input`
-//   width: 100%;
-//   padding: 13px 15px;
-//   border-radius: 7px;
-//   border: none;
-// `;
-
-// const ErrorMessage = styled.p`
-//   font-size: 12px;
-//   color: red;
-//   margin: 7px 2px;
-// `;
 
 const Button = styled.button`
   width: 100%;
