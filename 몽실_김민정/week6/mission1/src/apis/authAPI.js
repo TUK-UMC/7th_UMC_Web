@@ -19,3 +19,17 @@ export const postRegister = async ({ email, password, passwordCheck }) => {
     throw error;
   }
 };
+
+export const postLogin = async ({ email, password }) => {
+  try {
+    const response = await instance.post(`${BASE_URL}/login`, {
+      email,
+      password,
+    });
+
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

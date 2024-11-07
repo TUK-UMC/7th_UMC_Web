@@ -4,8 +4,12 @@ import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ERROR_MESSAGE } from "../constants/errorMessage";
 import { Input } from "../components/Input";
+import { postLogin } from "../apis/authAPI";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+  const navigation = useNavigate();
+
   const userSchema = object().shape({
     email: string()
       .email(ERROR_MESSAGE.EMAIL.INVALID)
@@ -30,8 +34,19 @@ export const Login = () => {
     password: register("password"),
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await postLogin({
+        email: data.email,
+        password: data.password,
+      });
+      localStorage.setItem("accessToken", response.accessToken);
+      localStorage.setItem("refreshToken", response.refreshToken);
+      navigation("/");
+    } catch (error) {
+      const errorMessage = error?.response?.data.message;
+      alert(errorMessage);
+    }
   };
 
   return (

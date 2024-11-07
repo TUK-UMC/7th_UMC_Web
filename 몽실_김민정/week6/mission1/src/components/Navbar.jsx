@@ -3,12 +3,19 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Navbar = () => {
+  const accessToken = localStorage.getItem("accessToken");
   return (
     <Container>
       <Logo to={"/"}>Mongsil</Logo>
       <UserDiv>
-        <SignInLink to={"/login"}>로그인</SignInLink>
-        <SignUpLink to={"/signup"}>회원가입</SignUpLink>
+        {accessToken ? (
+          <LogoutLink>로그아웃</LogoutLink>
+        ) : (
+          <>
+            <SignInLink to={"/login"}>로그인</SignInLink>
+            <SignUpLink to={"/signup"}>회원가입</SignUpLink>
+          </>
+        )}
       </UserDiv>
     </Container>
   );
@@ -61,5 +68,14 @@ const SignUpLink = styled(JoinButton)`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primary_100};
+  }
+`;
+
+const LogoutLink = styled(JoinButton)`
+  width: 80px;
+  background-color: ${({ theme }) => theme.colors.gray_200};
+
+  &:hover {
+    text-decoration: underline;
   }
 `;

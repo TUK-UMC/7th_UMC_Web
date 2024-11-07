@@ -2,7 +2,6 @@ import { styled } from "styled-components";
 import { object, ref, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { redirect } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { Input } from "../components/Input";
@@ -120,8 +119,4 @@ const Button = styled.button`
     background-color: ${({ theme, $isValid }) =>
       $isValid && theme.colors.primary_100};
   }
-`;
-
-const ErrorMessage = styled.p`
-  color: red;
 `;
