@@ -1,0 +1,63 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+
+export const Navbar = () => {
+  return (
+    <Container>
+      <Logo to={"/"}>Mongsil</Logo>
+      <UserDiv>
+        <SignInLink to={"/login"}>로그인</SignInLink>
+        <SignUpLink to={"/signup"}>회원가입</SignUpLink>
+      </UserDiv>
+    </Container>
+  );
+};
+
+const Container = styled.div`
+  height: 70px;
+  background-color: ${({ theme }) => theme.colors.gray_200};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 30px;
+`;
+
+const Logo = styled(Link)`
+  color: ${({ theme }) => theme.colors.primary};
+  text-decoration: none;
+  font-size: 32px;
+  font-weight: 800;
+`;
+
+const UserDiv = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const JoinButton = styled(Link)`
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 17px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+`;
+
+const SignInLink = styled(JoinButton)`
+  width: 60px;
+  background-color: ${({ theme }) => theme.colors.gray_200};
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const SignUpLink = styled(JoinButton)`
+  background-color: ${({ theme }) => theme.colors.primary};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.primary_100};
+  }
+`;
