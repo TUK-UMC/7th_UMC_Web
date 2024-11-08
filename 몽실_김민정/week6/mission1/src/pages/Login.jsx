@@ -43,11 +43,7 @@ export const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await postLogin({
-        email: data.email,
-        password: data.password,
-      });
-      login(response.accessToken, response.refreshToken);
+      login({ email: data.email, password: data.password });
       navigation("/", { replace: true });
     } catch (error) {
       const errorMessage = error?.response?.data.message;
