@@ -2,19 +2,21 @@ import styled from "styled-components";
 import { PLACEHOLDER } from "../constants/placeholder";
 import { forwardRef } from "react";
 
-export const Input = forwardRef(({ type, errorMessage, ...rest }, ref) => {
-  return (
-    <InputWrapper>
-      <StyledInput
-        ref={ref}
-        type={type === "PASSWORD_CHECK" ? "password" : type}
-        placeholder={PLACEHOLDER[type]}
-        {...rest}
-      />
-      <ErrorMessage>{errorMessage}</ErrorMessage>
-    </InputWrapper>
-  );
-});
+export const Input = forwardRef(
+  ({ type = "text", errorMessage, ...rest }, ref) => {
+    return (
+      <InputWrapper>
+        <StyledInput
+          ref={ref}
+          type={type === "PASSWORD_CHECK" ? "password" : type}
+          placeholder={PLACEHOLDER[type]}
+          {...rest}
+        />
+        <ErrorMessage>{errorMessage}</ErrorMessage>
+      </InputWrapper>
+    );
+  }
+);
 
 const InputWrapper = styled.div`
   height: 50px;
