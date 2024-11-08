@@ -5,17 +5,6 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from "axios";
 
-//유틸리티 함수 : 로컬 스토리지에 사용자 정보 저장
-function saveUserToLocalStorage(email, password){
-    const users = JSON.parse(localStorage.getItem("users"))||[];
-    console.log(localStorage)
-    //새로운 사용자 정보 추가
-    users.push({email, password});
-
-    ///업데이트된 사용자 목록을 로컬 스토리지에 저장
-    localStorage.setItem("users", JSON.stringify(users));
-}
-
 // 유틸리티 함수 - 토큰 저장 여부 확인
 function areTokensStored() {
     const accessToken = localStorage.getItem("accessToken");
@@ -42,12 +31,16 @@ function LoginContextProvider({children}){
 
     const onSubmit = async(data) => {
         try {
-            //로컬 스토리지에 사용자 데이터 저장
-            saveUserToLocalStorage(data.email, data.password);
+            // 서버로 로그인 요청
+            const response = await axios.post('http://localhost:3000/auth/login', {
+                email: data.email,
+                password: data.password,
+            });
 
             // 가상의 AccessToken과 RefreshToken을 로컬 스토리지에 저장
-            localStorage.setItem("accessToken", "mockAccessToken");
-            localStorage.setItem("refreshToken", "mockRefreshToken");
+            localStorage.setItem("accessToken", response.data.accessToken);
+            localStorage.setItem("refreshToken", response.data.refreshToken);
+
             const userEmailId = data.email.split('@')[0];
             setUserIdIs(userEmailId)
             setIsLoggedIn(true);
@@ -55,7 +48,7 @@ function LoginContextProvider({children}){
             return true;
         } catch (error) {
             setIsLoggedIn(false);
-            console.log('로그인 실패', error);
+            console.log('로그인 실패',  error.response ? error.response.data : error);
             alert("로그인에 실패했습니다. 다시 시도해주세요.");
             return false;
         }

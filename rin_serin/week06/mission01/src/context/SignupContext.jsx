@@ -4,16 +4,16 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from "axios";
 
-//유틸리티 함수 : 로컬 스토리지에 사용자 정보 저장
-function saveUserToLocalStorage(email, password){
-    const users = JSON.parse(localStorage.getItem("users"))||[];
+// //유틸리티 함수 : 로컬 스토리지에 사용자 정보 저장
+// function saveUserToLocalStorage(email, password){
+//     const users = JSON.parse(localStorage.getItem("users"))||[];
 
-    //새로운 사용자 정보 추가
-    users.push({email, password});
+//     //새로운 사용자 정보 추가
+//     users.push({email, password});
 
-    ///업데이트된 사용자 목록을 로컬 스토리지에 저장
-    localStorage.setItem("users", JSON.stringify(users));
-}
+//     ///업데이트된 사용자 목록을 로컬 스토리지에 저장
+//     localStorage.setItem("users", JSON.stringify(users));
+// }
 
 // 유틸리티 함수 - 토큰 저장 여부 확인
 function areTokensStored() {
@@ -43,25 +43,37 @@ function SignupContextProvider({children}){
 
     //회원가입 함수
     const onSubmit = async(data) => {
+        console.log('요청데이터', data)
         try {
             //로컬 스토리지에 사용자 데이터 저장
-            saveUserToLocalStorage(data.email, data.password);
+            // saveUserToLocalStorage(data.email, data.password);
+            // 서버로 회원가입 요청 전송
+            const response = await axios.post('http://localhost:3000/auth/register', {
+                email: data.email,
+                password: data.password,
+                passwordCheck: data.passwordCheck,
+            });
 
              // 가상의 AccessToken과 RefreshToken을 로컬 스토리지에 저장
-             localStorage.setItem("accessToken", "mockAccessToken");
-             localStorage.setItem("refreshToken", "mockRefreshToken");
+             localStorage.setItem("accessToken", response.data.accessToken);
+             localStorage.setItem("refreshToken", response.data.refreshToken);
  
-             // 저장된 토큰 확인
-             if (areTokensStored()) {
-                 console.log("AccessToken과 RefreshToken이 로컬 스토리지에 저장되었습니다.");
-             } else {
-                 console.log("토큰 저장에 문제가 발생했습니다.");
-             }
+            //  // 저장된 토큰 확인
+            //  if (areTokensStored()) {
+            //      console.log("AccessToken과 RefreshToken이 로컬 스토리지에 저장되었습니다.");
+            //  } else {
+            //      console.log("토큰 저장에 문제가 발생했습니다.");
+            //  }
              
             console.log('회원가입 성공');
             return true;
         } catch (error) {
-            console.log('회원가입 실패', error);
+            if (error.response) {
+                console.log('회원가입 실패 메시지:', error.response.data.message);
+                alert("회원가입 실패: " + error.response.data.message);
+            } else {
+                console.log('회원가입 실패:', error.message);
+            }
             alert("회원가입에 실패했습니다. 다시 시도해주세요.");
             return false;
         }

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useContext } from "react";
 import { SignupContext} from "../context/SignupContext";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const All = styled.div`
     width: 100%;
@@ -49,19 +49,19 @@ const SignupPage = () => {
         onSubmit
     }=useContext(SignupContext)
 
-    // 유틸리티 함수 - 로컬 스토리지에서 사용자 정보 확인
-function isUserExists(email) {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    return users.some(user => user.email === email);
-}
+    //     // 유틸리티 함수 - 로컬 스토리지에서 사용자 정보 확인
+    // function isUserExists(email) {
+    //     const users = JSON.parse(localStorage.getItem("users")) || [];
+    //     return users.some(user => user.email === email);
+    // }
 
-// 예시 사용
-const email = "test@example.com";
-if (isUserExists(email)) {
-    console.log("이미 존재하는 이메일입니다.");
-} else {
-    console.log("새로운 사용자 이메일입니다.");
-}
+    // // 예시 사용
+    // const email = "test@example.com";
+    // if (isUserExists(email)) {
+    //     console.log("이미 존재하는 이메일입니다.");
+    // } else {
+    //     console.log("새로운 사용자 이메일입니다.");
+    // }
 
     const navigate = useNavigate();
 

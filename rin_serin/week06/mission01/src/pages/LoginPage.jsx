@@ -26,20 +26,6 @@ const SubmitInputBox = styled(InputBox)`
     font-weight: 700;
 `;
 
-// // 유틸리티 함수 - 로컬 스토리지에서 사용자 정보 확인
-// function isUserExists(email) {
-//     const users = JSON.parse(localStorage.getItem("users")) || [];
-//     return users.some(user => user.email === email);
-// }
-
-// // 예시 사용
-// const email = "test@example.com";
-// if (isUserExists(email)) {
-//     console.log("이미 존재하는 이메일입니다.");
-// } else {
-//     console.log("새로운 사용자 이메일입니다.");
-// }
-
 const LoginPage = () => {
 
     const {
