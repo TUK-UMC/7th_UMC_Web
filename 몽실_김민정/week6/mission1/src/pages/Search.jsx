@@ -9,10 +9,12 @@ import { Poster } from "../components/Poster";
 
 export const Search = () => {
   const [movies, setMovies] = useState([]);
+  const [keyword, setKeyword] = useState("");
 
   const handleChangeInput = async (e) => {
     try {
       const response = await getMoviesByKeyword(e.target.value);
+      setKeyword(e.target.value);
       setMovies(response.results);
     } catch (error) {
       alert(error.message);
@@ -27,15 +29,21 @@ export const Search = () => {
         />
         <PrimaryButton size='s'>검색</PrimaryButton>
       </InputWrapper>
-      <MoviesGridWrapper>
-        {movies?.map((movie) => (
-          <PosterWrapper key={movie.id}>
-            <Poster movieData={movie} />
-            <span>{movie.title}</span>
-            <span>{movie.release_date}</span>
-          </PosterWrapper>
-        ))}
-      </MoviesGridWrapper>
+      {keyword !== "" && movies.length === 0 ? (
+        <NoResultText>
+          <strong>{keyword}</strong> 에 해당하는 데이터가 존재하지 않습니다.
+        </NoResultText>
+      ) : (
+        <MoviesGridWrapper>
+          {movies?.map((movie) => (
+            <PosterWrapper key={movie.id}>
+              <Poster movieData={movie} />
+              <span>{movie.title}</span>
+              <span>{movie.release_date}</span>
+            </PosterWrapper>
+          ))}
+        </MoviesGridWrapper>
+      )}
     </Container>
   );
 };
@@ -72,5 +80,14 @@ const PosterWrapper = styled.div`
 
   & :nth-child(3) {
     font-size: 10px;
+  }
+`;
+
+const NoResultText = styled.p`
+  text-align: center;
+  font-size: 30px;
+
+  & > strong {
+    color: ${({ theme }) => theme.colors.primary};
   }
 `;
