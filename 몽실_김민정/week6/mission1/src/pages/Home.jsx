@@ -9,7 +9,11 @@ function Home() {
   const { data, error, loading } = useFetch(getPopularMovies);
 
   if (loading) {
-    return <Loading />;
+    return (
+      <Container>
+        <Loading />
+      </Container>
+    );
   }
 
   if (error) {

@@ -8,7 +8,7 @@ const instance = axios.create({
 
 export const postRegister = async ({ email, password, passwordCheck }) => {
   try {
-    const response = await instance.post(`${BASE_URL}/register`, {
+    const response = await instance.post(`${BASE_URL}/auth/register`, {
       email,
       password,
       passwordCheck,
@@ -22,12 +22,24 @@ export const postRegister = async ({ email, password, passwordCheck }) => {
 
 export const postLogin = async ({ email, password }) => {
   try {
-    const response = await instance.post(`${BASE_URL}/login`, {
+    const response = await instance.post(`${BASE_URL}/auth/login`, {
       email,
       password,
     });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
-    console.log(response.data);
+export const getUserData = async () => {
+  try {
+    const token = localStorage.getItem("accessToken");
+    const response = await instance.get(`${BASE_URL}/user/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;

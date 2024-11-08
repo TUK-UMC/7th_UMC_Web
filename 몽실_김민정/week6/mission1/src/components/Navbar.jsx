@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../context/AuthContext";
 
 export const Navbar = () => {
-  const accessToken = localStorage.getItem("accessToken");
+  const { isAuthenticated, logout, userData } = useContext(AuthContext);
+
   return (
     <Container>
       <Logo to={"/"}>Mongsil</Logo>
       <UserDiv>
-        {accessToken ? (
-          <LogoutLink>로그아웃</LogoutLink>
+        {isAuthenticated && userData?.email ? (
+          <>
+            <WelcomeText>
+              <strong>{userData.email}</strong> 님 반갑습니다.{" "}
+            </WelcomeText>
+            <LogoutLink onClick={logout}>로그아웃</LogoutLink>
+          </>
         ) : (
           <>
             <SignInLink to={"/login"}>로그인</SignInLink>
@@ -41,6 +48,7 @@ const Logo = styled(Link)`
 const UserDiv = styled.div`
   display: flex;
   gap: 10px;
+  align-items: center;
 `;
 
 const JoinButton = styled(Link)`
@@ -77,5 +85,15 @@ const LogoutLink = styled(JoinButton)`
 
   &:hover {
     text-decoration: underline;
+  }
+`;
+
+const WelcomeText = styled.p`
+  font-weight: 600;
+
+  & > strong {
+    font-weight: 800;
+    color: ${({ theme }) => theme.colors.primary};
+    cursor: pointer;
   }
 `;

@@ -6,9 +6,16 @@ import { ERROR_MESSAGE } from "../constants/errorMessage";
 import { Input } from "../components/Input";
 import { postLogin } from "../apis/authAPI";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export const Login = () => {
   const navigation = useNavigate();
+  const { login, getUser, userData } = useContext(AuthContext);
+
+  if (userData) {
+    navigation("/");
+  }
 
   const userSchema = object().shape({
     email: string()
@@ -40,9 +47,8 @@ export const Login = () => {
         email: data.email,
         password: data.password,
       });
-      localStorage.setItem("accessToken", response.accessToken);
-      localStorage.setItem("refreshToken", response.refreshToken);
-      navigation("/");
+      login(response.accessToken, response.refreshToken);
+      navigation("/", { replace: true });
     } catch (error) {
       const errorMessage = error?.response?.data.message;
       alert(errorMessage);
