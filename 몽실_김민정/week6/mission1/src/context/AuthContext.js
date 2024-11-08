@@ -31,6 +31,7 @@ export const AuthContextProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    setUserData(null);
     setIsAuthenticated(false);
   };
 
