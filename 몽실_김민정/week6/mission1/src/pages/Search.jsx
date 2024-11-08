@@ -6,20 +6,26 @@ import { getMoviesByKeyword } from "../apis/movieAPI";
 import { Input } from "../components/Input";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { Poster } from "../components/Poster";
+import { useFetch } from "../hooks/useFetch";
+import { SkeletonPoster } from "../components/SkeletonPoster";
 
 export const Search = () => {
-  const [movies, setMovies] = useState([]);
   const [keyword, setKeyword] = useState("");
 
-  const handleChangeInput = async (e) => {
-    try {
-      const response = await getMoviesByKeyword(e.target.value);
-      setKeyword(e.target.value);
-      setMovies(response.results);
-    } catch (error) {
-      alert(error.message);
-    }
+  const { data, loading, error } = useFetch(
+    () =>
+      keyword.trim()
+        ? getMoviesByKeyword(keyword)
+        : Promise.resolve({ results: [] }),
+    [keyword]
+  );
+
+  const handleChangeInput = (e) => {
+    setKeyword(e.target.value);
   };
+
+  const movies = data?.results || [];
+
   return (
     <Container>
       <InputWrapper>
@@ -29,7 +35,13 @@ export const Search = () => {
         />
         <PrimaryButton size='s'>검색</PrimaryButton>
       </InputWrapper>
-      {keyword !== "" && movies.length === 0 ? (
+      {loading ? (
+        <MoviesGridWrapper>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <SkeletonPoster key={index} />
+          ))}
+        </MoviesGridWrapper>
+      ) : keyword !== "" && movies.length === 0 ? (
         <NoResultText>
           <strong>{keyword}</strong> 에 해당하는 데이터가 존재하지 않습니다.
         </NoResultText>
