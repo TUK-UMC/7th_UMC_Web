@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Input } from "../components/Input";
 import { ERROR_MESSAGE } from "../constants/errorMessage";
 import { postRegister } from "../apis/authAPI";
+import { PrimaryButton } from "../components/PrimaryButton";
 
 export const Signup = () => {
   const navigation = useNavigate();
@@ -72,13 +73,13 @@ export const Signup = () => {
           errorMessage={errors.passwordCheck?.message}
           {...registers.passwordCheck}
         />
-        <Button
+        <PrimaryButton
           $isSubmitting={isSubmitting}
           $isValid={isValid}
           disabled={!isValid}
         >
           제출
-        </Button>
+        </PrimaryButton>
       </Form>
     </Container>
   );
@@ -101,22 +102,4 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 30px;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  padding: 13px 15px;
-  border-radius: 7px;
-  border: none;
-  background-color: ${({ theme, $isSubmitting, $isValid }) =>
-    $isSubmitting || !$isValid ? theme.colors.gray_100 : theme.colors.primary};
-  font-size: 18px;
-  color: ${({ theme }) => theme.colors.white};
-  font-weight: 600;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme, $isValid }) =>
-      $isValid && theme.colors.primary_100};
-  }
 `;

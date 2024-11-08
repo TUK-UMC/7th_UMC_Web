@@ -18,6 +18,7 @@ export const Input = forwardRef(({ type, errorMessage, ...rest }, ref) => {
 
 const InputWrapper = styled.div`
   height: 50px;
+  width: 100%;
 `;
 
 const StyledInput = styled.input`

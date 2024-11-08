@@ -4,14 +4,14 @@ import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ERROR_MESSAGE } from "../constants/errorMessage";
 import { Input } from "../components/Input";
-import { postLogin } from "../apis/authAPI";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { PrimaryButton } from "../components/PrimaryButton";
 
 export const Login = () => {
   const navigation = useNavigate();
-  const { login, getUser, userData } = useContext(AuthContext);
+  const { login, userData } = useContext(AuthContext);
 
   if (userData) {
     navigation("/");
@@ -65,13 +65,13 @@ export const Login = () => {
           errorMessage={errors.password?.message}
           {...registers.password}
         />
-        <Button
+        <PrimaryButton
           $isSubmitting={isSubmitting}
           $isValid={isValid}
           disabled={!isValid}
         >
           로그인
-        </Button>
+        </PrimaryButton>
       </Form>
     </Container>
   );
@@ -94,22 +94,4 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 30px;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  padding: 13px 15px;
-  border-radius: 7px;
-  border: none;
-  background-color: ${({ theme, $isSubmitting, $isValid }) =>
-    $isSubmitting || !$isValid ? theme.colors.gray_100 : theme.colors.primary};
-  font-size: 18px;
-  color: ${({ theme }) => theme.colors.white};
-  font-weight: 600;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme, $isValid }) =>
-      $isValid && theme.colors.primary_100};
-  }
 `;
