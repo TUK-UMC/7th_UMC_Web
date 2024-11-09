@@ -1,51 +1,71 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
+import { tmdbAxiosInstance } from '../../apis/axios-instance';
 import MovieCard from '../../components/MovieCard';
-import useCustomFetch from '../../hooks/useCustomFetch';
-import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #000;
+  color: white;
+  min-height: 100vh;
+`;
 
 const MovieGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   grid-gap: 20px;
-  padding: 20px;
+  width: 100%;
 `;
 
 function MovieListPage({ apiEndpoint }) {
-  const { data: movies, isLoading, isError } = useCustomFetch({ url: apiEndpoint });
-  const navigate = useNavigate();
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
-  const handleMovieClick = (movieId) => {
-    navigate(`/movies/${movieId}`);
-  };
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error loading movies.</div>;
-  }
-
-  if (!movies || !movies.results) {
-    return <div>No movies available.</div>;
-  }
+  useEffect(() => {
+    const fetchMovies = async () => {
+      setIsLoading(true);
+      setIsError(false);
+      try {
+        const response = await tmdbAxiosInstance.get(apiEndpoint, {
+          params: {
+            language: 'ko-KR',
+            page: 1,
+          },
+        });
+        setMovies(response.data.results);
+      } catch (error) {
+        console.error('Error fetching movies:', error);
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchMovies();
+  }, [apiEndpoint]);
 
   return (
-    <MovieGrid>
-  {movies.results.map((movie) => (
-    <MovieCard
-      key={movie.id}
-      imageUrl={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-      title={movie.title}
-      releaseDate={movie.release_date}
-      onClick={() => handleMovieClick(movie.id)}
-    />
-  ))}
-</MovieGrid>
-
+    <Container>
+      {isLoading && <p>Loading...</p>}
+      {isError && <p>Error fetching movies. Please try again.</p>}
+      {!isLoading && !isError && movies.length === 0 && (
+        <p>No movies available.</p>
+      )}
+      <MovieGrid>
+        {movies.map((movie) => (
+          <MovieCard
+            key={movie.id}
+            imageUrl={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            title={movie.title}
+            releaseDate={movie.release_date}
+          />
+        ))}
+      </MovieGrid>
+    </Container>
   );
 }
-
 
 export default MovieListPage;

@@ -1,28 +1,34 @@
-import {useState, useEffect} from 'react';
-import {axiosInstance} from '../apis/axios-instance';
- 
-function useCustomFetch({ url }) {
-    const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isError, setIsError] = useState(false);
-  
-    useEffect(() => {
-        const fetchData = async() => {
-            setIsLoading(true);
-            try{
-                const response = await axiosInstance.get(url)
-                setData(response.data);
-            } catch (error){
-                setIsError(true);
-            } finally {
-                setIsLoading(false);
-            }
-        }
-        fetchData()
-    }, [url])
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-    return{data,isLoading,isError}
+const useCustomFetch = ({ url }) => {
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
-}
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      setIsError(false);
+      try {
+        const response = await axios.get(url, {
+          params: {
+            api_key: process.env.REACT_APP_MOVIE_API_KEY, // API Key를 포함해서 요청
+          },
+        });
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [url]);
+
+  return { data, isLoading, isError };
+};
 
 export default useCustomFetch;
