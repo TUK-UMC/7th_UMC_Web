@@ -4,6 +4,8 @@ import * as S from "../../pages/search/Search-styled"
 import SearchMovieList from "../../components/movie/search-movie-list";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import useDebounce from "../../hooks/useDebounce";
+import { useEffect } from "react";
 
 const All= styled.div`
     width: 100%;
@@ -23,13 +25,16 @@ const SearchPage = () => {
     });
     const mq = searchParams.get('mq')
 
-    // const debouncedSearchValue = useDebounce(searchValue, 500);
-    // // 디바운스된 값으로 URL을 업데이트하여 SearchMovieList에서 사용
-    // useEffect(() => {
-    //     if (debouncedSearchValue && debouncedSearchValue !== mq) {
-    //         setSearchParams({ mq: debouncedSearchValue });
-    //     }
-    // }, [debouncedSearchValue, mq, setSearchParams]);
+    // 디바운스된 검색어 상태 생성
+    const debouncedSearchValue = useDebounce(searchValue, 500);
+
+    // 디바운스된 값으로 URL을 업데이트하여 SearchMovieList에서 사용
+    useEffect(() => {
+        if (debouncedSearchValue) {
+            setSearchParams({ mq: debouncedSearchValue });
+        }
+    }, [debouncedSearchValue, setSearchParams]);
+
 
     const onChangeSearchValue = (event) =>{
         setSearchValue(event.target.value)
