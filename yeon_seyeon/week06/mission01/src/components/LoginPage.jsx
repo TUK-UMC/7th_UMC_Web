@@ -1,103 +1,127 @@
-// src/components/LoginPage.jsx
-import React, { useState } from "react";
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
+// 유효성 검사 스키마 설정
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email("유효한 이메일 형식이 아닙니다.")
+    .required("이메일을 반드시 입력해주세요."),
+  password: yup
+    .string()
+    .min(8, "비밀번호는 8자 이상이어야 합니다.")
+    .max(16, "비밀번호는 16자 이하여야 합니다.")
+    .required("비밀번호를 입력해주세요."),
+});
+
+// 스타일링
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 50px;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #222;
   color: white;
+  border-radius: 8px;
 `;
 
-const Title = styled.h1`
-  margin-bottom: 20px;
+const ErrorText = styled.p`
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
 `;
 
-const Input = styled.input`
+const SubmitButton = styled.button`
   width: 100%;
-  max-width: 300px;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  &:focus {
-    border-color: #ff007f;
-  }
-`;
-
-const Button = styled.button`
-  width: 100%;
-  max-width: 300px;
-  padding: 10px;
+  padding: 12px;
   background-color: #ff007f;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
   &:hover {
     background-color: #ff66a3;
   }
 `;
 
-const ErrorMessage = styled.p`
-  color: red;
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+`;
+
+const Label = styled.label`
   font-size: 14px;
-  margin: 5px 0;
+  color: #aaa;
 `;
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const navigate = useNavigate();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(e.target.value)) {
-      setEmailError("올바른 이메일 형식이 아닙니다. 다시 입력해주세요!");
-    } else {
-      setEmailError("");
-    }
-  };
+  // 로그인 요청 함수
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:3000/auth/login", {
+        email: data.email,
+        password: data.password,
+      });
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    if (e.target.value.length < 8 || e.target.value.length > 16) {
-      setPasswordError("비밀번호는 8~16자 사이로 입력해주세요!");
-    } else {
-      setPasswordError("");
-    }
-  };
+      if (response.status === 200) {
+        // 토큰을 localStorage에 저장
+        localStorage.setItem("AccessToken", response.data.accessToken);
+        localStorage.setItem("RefreshToken", response.data.refreshToken);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!emailError && !passwordError && email && password) {
-      // 로그인 로직 수행
-      console.log("로그인 성공");
+        // 메인 페이지로 이동
+        navigate("/");
+      } else {
+        alert("로그인에 실패했습니다. 다시 시도해주세요.");
+      }
+    } catch (error) {
+      console.error("로그인 실패:", error);
+      alert("로그인 중 문제가 발생했습니다. 다시 시도해주세요.");
     }
   };
 
   return (
     <Container>
-      <Title>로그인</Title>
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="email"
-          placeholder="이메일을 입력해주세요!"
-          value={email}
-          onChange={handleEmailChange}
+      <h2>로그인</h2>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Label>이메일</Label>
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => <Input {...field} placeholder="이메일" />}
         />
-        {emailError && <ErrorMessage>{emailError}</ErrorMessage>}
-        <Input
-          type="password"
-          placeholder="비밀번호를 입력해주세요!"
-          value={password}
-          onChange={handlePasswordChange}
+        {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
+
+        <Label>비밀번호</Label>
+        <Controller
+          name="password"
+          control={control}
+          render={({ field }) => (
+            <Input {...field} type="password" placeholder="비밀번호" />
+          )}
         />
-        {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
-        <Button type="submit">로그인</Button>
+        {errors.password && <ErrorText>{errors.password.message}</ErrorText>}
+
+        <SubmitButton type="submit">로그인</SubmitButton>
       </form>
     </Container>
   );
