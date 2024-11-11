@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 const Container = styled.div`
   display: flex;
@@ -49,58 +47,32 @@ const ErrorMessage = styled.div`
   font-size: 12px;
 `;
 
-const validationSchema = yup.object({
+const validationSchema = yup.object().shape({
   email: yup.string().email('유효한 이메일 주소를 입력해주세요.').required('이메일은 필수 항목입니다.'),
   password: yup.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.').required('비밀번호는 필수 항목입니다.'),
 });
 
-function LoginPage({ onLogin }) {
-  const navigate = useNavigate();
+function LoginPage() {
   const { register, handleSubmit, formState: { errors, isValid } } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onChange',
   });
 
-  const onSubmit = async (data) => {
-    try {
-      const response = await axios.post('http://localhost:3000/auth/login', {
-        email: data.email,
-        password: data.password,
-      });
-      console.log('로그인 성공:', response.data);
-
-      localStorage.setItem('accessToken', response.data.accessToken);
-      localStorage.setItem('refreshToken', response.data.refreshToken);
-
-      onLogin(response.data.accessToken, data.email);
-      navigate('/');
-    } catch (error) {
-      if (error.response) {
-        console.error('로그인 실패:', error.response.data);
-      } else if (error.request) {
-        console.error('서버에 도달하지 못했습니다:', error.request);
-      } else {
-        console.error('요청 설정 중 오류:', error.message);
-      }
-    }
+  const onSubmit = (data) => {
+    // 로그인 요청
+    console.log('로그인 시도:', data);
   };
 
   return (
     <Container>
       <h1>로그인</h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          type="email"
-          placeholder="이메일"
-          {...register('email')}
-        />
-        {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
-        <Input
-          type="password"
-          placeholder="비밀번호"
-          {...register('password')}
-        />
-        {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
+        <Input type="email" placeholder="이메일" {...register('email')} />
+        <ErrorMessage>{errors.email?.message}</ErrorMessage>
+        
+        <Input type="password" placeholder="비밀번호" {...register('password')} />
+        <ErrorMessage>{errors.password?.message}</ErrorMessage>
+        
         <Button type="submit" disabled={!isValid}>로그인</Button>
       </Form>
     </Container>

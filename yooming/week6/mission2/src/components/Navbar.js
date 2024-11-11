@@ -38,44 +38,15 @@ const Button = styled(Link)`
   }
 `;
 
-const LogoutButton = styled.button`
-  margin: 0 10px;
-  padding: 10px 15px;
-  color: white;
-  background-color: #ff3366;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #ff0055;
-  }
-`;
-
-const UserEmail = styled.span`
-  color: white;
-  margin-right: 15px;
-`;
-
-const Navbar = ({ userEmail, onLogout }) => {
+const Navbar = () => {
   return (
     <NavbarContainer>
       <Logo>
         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>YONGCHA</Link>
       </Logo>
       <div>
-        {userEmail ? (
-          <>
-            <UserEmail>{userEmail}</UserEmail>
-            <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
-          </>
-        ) : (
-          <>
-            <Button to="/login">로그인</Button>
-            <Button to="/signup">회원가입</Button>
-          </>
-        )}
+        <Button to="/login">로그인</Button>
+        <Button to="/signup">회원가입</Button>
       </div>
     </NavbarContainer>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { tmdbAxiosInstance } from '../apis/axios-instance';
+import { axiosInstance } from '../apis/axios-instance';
 import MovieCard from '../components/MovieCard';
 import debounce from 'lodash/debounce';
 
@@ -43,7 +43,7 @@ function Search() {
     setIsError(false);
 
     try {
-      const response = await tmdbAxiosInstance.get(`/search/movie`, {
+      const response = await axiosInstance.get(`/search/movie`, {
         params: {
           query,
           language: 'ko-KR', // 언어 설정을 한국어로 추가
