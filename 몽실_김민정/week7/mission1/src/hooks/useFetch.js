@@ -6,7 +6,7 @@ export const useFetch = (fetchFunction, dependencies = []) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true; // 컴포넌트 언마운트 방지
+    let isMounted = true;
 
     const fetchData = async () => {
       setLoading(true);

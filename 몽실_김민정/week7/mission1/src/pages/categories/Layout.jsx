@@ -1,22 +1,10 @@
-import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { Poster } from "../../components/Poster";
 import { useQuery } from "@tanstack/react-query";
 
-export const Layout = ({ func }) => {
-  // const [movies, setMovies] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchMovies = async () => {
-  //     const movieData = await func();
-  //     setMovies(movieData);
-  //   };
-
-  //   fetchMovies();
-  // }, [func]);
-
+export const Layout = ({ func, queryKey }) => {
   const { data: movies } = useQuery({
-    queryKey: "movies",
+    queryKey: [queryKey],
     queryFn: func,
   });
 
