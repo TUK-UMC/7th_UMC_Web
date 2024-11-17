@@ -1,16 +1,27 @@
-import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { AuthContext } from "../context/AuthContext";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getUserData } from "../apis/authAPI";
 
 export const Navbar = () => {
-  const { isAuthenticated, logout, userData } = useContext(AuthContext);
+  const queryClient = useQueryClient();
+
+  const { data: userData } = useQuery({
+    queryKey: ["userData"],
+    queryFn: getUserData,
+  });
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    queryClient.setQueryData(["userData"], null);
+  };
 
   return (
     <Container>
       <Logo to={"/"}>Mongsil</Logo>
       <UserDiv>
-        {isAuthenticated && userData?.email ? (
+        {userData ? (
           <>
             <WelcomeText>
               <strong>{userData.email}</strong> 님 반갑습니다.{" "}
