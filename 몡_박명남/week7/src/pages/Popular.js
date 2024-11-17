@@ -10,7 +10,7 @@ const Popular = () => {
   }
 
   if (isError) {
-    return <p>에러 발생: {error.message}</p>;
+    return <p>에러발생: {error.message}</p>;
   }
 
   return (

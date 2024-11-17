@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 const fetchMovieDetails = async (movieId) => {
   const response = await fetch(`https://api.example.com/movies/${movieId}`);
   if (!response.ok) {
-    throw new Error('영화 상세 정보를 가져오는 데 실패했습니다.');
+    throw new Error('영화 상세 정보를 가져오는 데 실패했습니다');
   }
   return response.json();
 };

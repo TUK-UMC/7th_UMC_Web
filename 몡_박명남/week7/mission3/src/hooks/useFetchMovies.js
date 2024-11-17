@@ -8,6 +8,7 @@ const fetchMovies = async (category) => {
   return response.json();
 };
 
+
 export const useFetchMovies = (category) => {
   return useQuery([`${category}-movies`], () => fetchMovies(category), {
     retry: 1,  

@@ -2,8 +2,8 @@ import React from 'react';
 import { useFetchMovies } from '../hooks/useFetchMovies';
 import Skeleton from '../components/Skeleton';
 
-const Upcoming = () => {
-  const { data, isLoading, isError, error } = useFetchMovies('upcoming');
+const Popular = () => {
+  const { data, isLoading, isError, error } = useFetchMovies('popular');
 
   if (isLoading) {
     return <Skeleton />;
@@ -15,7 +15,7 @@ const Upcoming = () => {
 
   return (
     <div>
-      <h1>상영 예정 영화</h1>
+      <h1>인기영화</h1>
       <ul>
         {data.results.map((movie) => (
           <li key={movie.id}>{movie.title}</li>
@@ -25,4 +25,4 @@ const Upcoming = () => {
   );
 };
 
-export default Upcoming;
+export default Popular;

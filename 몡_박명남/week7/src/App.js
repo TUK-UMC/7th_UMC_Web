@@ -17,7 +17,7 @@ function App() {
         {/* 검색바는 모든 페이지에서 사용될 수 있으므로 공통적으로 배치 */}
         <SearchBar />
         
-        {/* 페이지 라우팅 설정 */}
+        {/* 페이지 라우팅 */}
         <Routes>
           <Route path="/" element={<NowPlaying />} />
           <Route path="/popular" element={<Popular />} />
