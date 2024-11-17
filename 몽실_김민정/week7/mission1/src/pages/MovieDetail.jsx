@@ -6,6 +6,7 @@ import { useFetch } from "../hooks/useFetch";
 import { formatImageURL } from "../utils/formatImageURL";
 import { CircleProfile } from "../components/CircleProfile";
 import { ErrorPage } from "./ErrorPage";
+import { useQuery } from "@tanstack/react-query";
 
 export const MovieDetail = () => {
   const { movieId } = useParams();
@@ -14,13 +15,19 @@ export const MovieDetail = () => {
     data: movieInfo,
     loading: movieInfoLoading,
     error: movieInfoError,
-  } = useFetch(getMovieDetail, movieId);
+  } = useQuery({
+    queryKey: ["movieDetail"],
+    queryFn: () => getMovieDetail(movieId),
+  });
 
   const {
     data: credits,
     loading: creditsLoading,
     error: creditsError,
-  } = useFetch(getMovieCredits, movieId);
+  } = useQuery({
+    queryKey: ["movieCredit"],
+    queryFn: () => getMovieCredits(movieId),
+  });
 
   if (movieInfoLoading || creditsLoading) {
     return <Loading />;
