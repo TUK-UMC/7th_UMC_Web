@@ -6,33 +6,44 @@ import image2 from './images/image2.png';
 import image3 from './images/image3.png';
 import image4 from './images/image4.png';
 
+const GlobalStyle = styled.div`
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #000; /* 배경색 통일 */
+    color: white;
+  }
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* 상단에 정렬 */
-  align-items: flex-start; /* 왼쪽 정렬 */
-  height: 100%; /* 높이를 100%로 설정 */
+  align-items: flex-start;
+  justify-content: flex-start;
   padding: 20px;
   background-color: #000; /* 배경색 통일 */
-  color: white;
+  min-height: 100vh; /* 부모 높이 설정 */
+  height: auto;
 `;
 
 const CategoryGrid = styled.div`
-  display: flex;
-  justify-content: flex-start; /* 왼쪽 정렬 */
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px; /* 그리드 간격 */
+  width: 100%;
+  align-content: start; /* 그리드 아이템 상단 정렬 */
+  height: auto;
 `;
 
 const CategoryCard = styled(Link)`
-  width: 200px;
-  height: 120px;
-  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 150px; /* 카드 높이 고정 */
   background-color: #ffcc00;
+  border-radius: 10px;
   overflow: hidden;
   position: relative;
 
@@ -60,28 +71,30 @@ function Movies() {
   ];
 
   return (
-    <Container>
-      <h1>카테고리</h1>
-      <CategoryGrid>
-        {categories.map((category, index) => (
-          <CategoryCard key={index} to={category.path}>
-            <img
-              src={category.image}
-              alt={category.label}
-              style={{
-                width: '100%',
-                height: '100%',
-                borderRadius: '10px',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-              }}
-            />
-            <Label>{category.label}</Label>
-          </CategoryCard>
-        ))}
-      </CategoryGrid>
-    </Container>
+    <GlobalStyle>
+      <Container>
+        <h1>카테고리</h1>
+        <CategoryGrid>
+          {categories.map((category, index) => (
+            <CategoryCard key={index} to={category.path}>
+              <img
+                src={category.image}
+                alt={category.label}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: '10px',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                }}
+              />
+              <Label>{category.label}</Label>
+            </CategoryCard>
+          ))}
+        </CategoryGrid>
+      </Container>
+    </GlobalStyle>
   );
 }
 

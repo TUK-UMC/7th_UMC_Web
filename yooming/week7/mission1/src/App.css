@@ -1,32 +1,31 @@
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
-  .movie {
-    position: relative;
-    margin: 5px;
-    width: calc(10% - 10px);
-  }
-  
-  .movie img {
-    width: 100%;
-    height: auto;
-  }
-  
-  .movie:hover .overlay {
-    display: block;
-  }
-  
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none;
-    z-index: 1;
-  }
-  
+/* 기본적으로 모든 요소의 margin과 padding 제거 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* html과 body의 기본 설정 */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #000; /* 배경색 통일 */
+  color: white;
+  overflow-x: hidden; /* 수평 스크롤 제거 */
+}
+
+/* 전역적으로 적용될 수 있는 불필요한 div 스타일 제거 */
+div {
+  margin: 0;
+  padding: 0;
+}
+
+/* 전역 레이아웃 설정 */
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

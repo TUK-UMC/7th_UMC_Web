@@ -1,10 +1,10 @@
-import React from 'react';
-import { useQuery } from 'react-query';
+import React, { useRef, useEffect } from 'react';
+import { useInfiniteQuery } from 'react-query';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import MovieCard from '../../components/MovieCard';
 import { tmdbAxiosInstance } from '../../apis/axios-instance';
-import Skeleton from 'react-loading-skeleton'; // 스켈레톤 UI 라이브러리
+import Spinner from '../../components/Spinner';
 
 const Container = styled.div`
   display: flex;
@@ -23,46 +23,73 @@ const MovieGrid = styled.div`
   width: 100%;
 `;
 
-const fetchMovies = async (apiEndpoint) => {
+const fetchMovies = async (pageParam = 1, apiEndpoint) => {
   const response = await tmdbAxiosInstance.get(`/movie/${apiEndpoint}`, {
     params: {
       language: 'ko-KR',
-      page: 1,
+      page: pageParam,
     },
   });
-  return response.data;
+  return { results: response.data.results, nextPage: pageParam + 1, totalPages: response.data.total_pages };
 };
 
 function MovieListPage({ apiEndpoint }) {
-  const { data, isLoading, isError } = useQuery(['movies', apiEndpoint], () => fetchMovies(apiEndpoint), {
-    staleTime: 1000 * 60 * 5, // 5 minutes
-  });
+  const {
+    data,
+    isError,
+    isLoading,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery(
+    ['movies', apiEndpoint],
+    ({ pageParam = 1 }) => fetchMovies(pageParam, apiEndpoint),
+    {
+      getNextPageParam: (lastPage) =>
+        lastPage.nextPage <= lastPage.totalPages ? lastPage.nextPage : undefined,
+    }
+  );
 
-  if (isLoading) {
-    return (
-      <Container>
-        <Skeleton height={350} width={200} count={10} />
-      </Container>
+  const observerRef = useRef();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1 }
     );
-  }
-
-  if (isError) {
-    return <Container>영화 정보를 불러오는 중 오류가 발생했습니다.</Container>;
-  }
+    if (observerRef.current) observer.observe(observerRef.current);
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
     <Container>
-      <MovieGrid>
-        {data && data.results.map((movie) => (
-          <Link to={`/movies/${movie.id}`} key={movie.id}>
-            <MovieCard
-              imageUrl={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              title={movie.title}
-              releaseDate={movie.release_date}
-            />
-          </Link>
-        ))}
-      </MovieGrid>
+      {isLoading ? (
+        <Spinner />
+      ) : isError ? (
+        <div>Error fetching movies.</div>
+      ) : (
+        <>
+          <MovieGrid>
+            {data.pages.map((page) =>
+              page.results.map((movie) => (
+                <Link to={`/movies/${movie.id}`} key={movie.id}>
+                  <MovieCard
+                    imageUrl={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    title={movie.title}
+                    releaseDate={movie.release_date}
+                  />
+                </Link>
+              ))
+            )}
+          </MovieGrid>
+          {isFetchingNextPage && <Spinner />}
+          <div ref={observerRef} />
+        </>
+      )}
     </Container>
   );
 }
