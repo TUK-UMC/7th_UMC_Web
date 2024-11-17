@@ -1,12 +1,17 @@
 import { styled } from "styled-components";
 import { Poster } from "../../components/Poster";
 import { useQuery } from "@tanstack/react-query";
+import { SkeletonPosterGrid } from "../../components/SkeletonPosterGrid";
 
 export const Layout = ({ func, queryKey }) => {
-  const { data: movies } = useQuery({
+  const { isLoading, data: movies } = useQuery({
     queryKey: [queryKey],
     queryFn: func,
   });
+
+  if (isLoading) {
+    return <SkeletonPosterGrid />;
+  }
 
   return (
     <Container>

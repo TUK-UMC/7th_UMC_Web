@@ -1,24 +1,27 @@
 import { styled } from "styled-components";
 import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { debounce } from "../utils/debounce";
 import { getMoviesByKeyword } from "../apis/movieAPI";
 import { Input } from "../components/Input";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { Poster } from "../components/Poster";
-import { useFetch } from "../hooks/useFetch";
-import { SkeletonPoster } from "../components/SkeletonPoster";
+import { SkeletonPosterGrid } from "../components/SkeletonPosterGrid";
 
 export const Search = () => {
   const [keyword, setKeyword] = useState("");
+  const queryClient = useQueryClient();
+  queryClient.invalidateQueries(["resultByKeyword"]);
 
-  const { data, loading, error } = useFetch(
-    () =>
+  const { data, isLoading } = useQuery({
+    queryFn: () =>
       keyword.trim()
         ? getMoviesByKeyword(keyword)
         : Promise.resolve({ results: [] }),
-    [keyword]
-  );
+    queryKey: ["resultByKeyword"],
+    enabled: keyword.trim() !== "",
+  });
 
   const handleChangeInput = (e) => {
     setKeyword(e.target.value);
@@ -35,12 +38,8 @@ export const Search = () => {
         />
         <PrimaryButton size='s'>검색</PrimaryButton>
       </InputWrapper>
-      {loading ? (
-        <MoviesGridWrapper>
-          {Array.from({ length: 6 }).map((_, index) => (
-            <SkeletonPoster key={index} />
-          ))}
-        </MoviesGridWrapper>
+      {isLoading ? (
+        <SkeletonPosterGrid />
       ) : keyword !== "" && movies.length === 0 ? (
         <NoResultText>
           <strong>{keyword}</strong> 에 해당하는 데이터가 존재하지 않습니다.

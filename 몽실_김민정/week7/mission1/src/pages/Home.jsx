@@ -1,19 +1,19 @@
 import styled from "styled-components";
 import { Poster } from "../components/Poster";
 import { getPopularMovies } from "../apis/movieAPI";
-import { useFetch } from "../hooks/useFetch";
 import { ReactComponent as Loading } from "../images/loadingIcon.svg";
 import { ErrorPage } from "./ErrorPage";
+import { useQuery } from "@tanstack/react-query";
+import { SkeletonPosterGrid } from "../components/SkeletonPosterGrid";
 
 function Home() {
-  const { data, error, loading } = useFetch(getPopularMovies);
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["homePageMovies"],
+    queryFn: getPopularMovies,
+  });
 
-  if (loading) {
-    return (
-      <Container>
-        <Loading />
-      </Container>
-    );
+  if (isLoading) {
+    return <SkeletonPosterGrid />;
   }
 
   if (error) {
