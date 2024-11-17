@@ -1,8 +1,10 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import MovieCard from '../../components/MovieCard';
 import { tmdbAxiosInstance } from '../../apis/axios-instance';
+import Skeleton from 'react-loading-skeleton'; // 스켈레톤 UI 라이브러리
 
 const Container = styled.div`
   display: flex;
@@ -32,26 +34,33 @@ const fetchMovies = async (apiEndpoint) => {
 };
 
 function MovieListPage({ apiEndpoint }) {
-  const { data, isLoading, isError } = useQuery(['movies', apiEndpoint], () => fetchMovies(apiEndpoint));
+  const { data, isLoading, isError } = useQuery(['movies', apiEndpoint], () => fetchMovies(apiEndpoint), {
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
 
   if (isLoading) {
-    return <Container>Loading...</Container>;
+    return (
+      <Container>
+        <Skeleton height={350} width={200} count={10} />
+      </Container>
+    );
   }
 
   if (isError) {
-    return <Container>Error fetching movies.</Container>;
+    return <Container>영화 정보를 불러오는 중 오류가 발생했습니다.</Container>;
   }
 
   return (
     <Container>
       <MovieGrid>
-        {data.results.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            imageUrl={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            title={movie.title}
-            releaseDate={movie.release_date}
-          />
+        {data && data.results.map((movie) => (
+          <Link to={`/movies/${movie.id}`} key={movie.id}>
+            <MovieCard
+              imageUrl={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              title={movie.title}
+              releaseDate={movie.release_date}
+            />
+          </Link>
         ))}
       </MovieGrid>
     </Container>
