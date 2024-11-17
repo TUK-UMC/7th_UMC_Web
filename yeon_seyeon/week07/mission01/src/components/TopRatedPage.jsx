@@ -1,10 +1,13 @@
 import React from "react";
-import { MOVIES } from "../mocks/movies";
+import { useMovies } from "../hooks/useMovies";
 
 const TopRatedPage = () => {
-  const topRatedMovies = MOVIES.results.filter(
-    (movie) => movie.vote_average >= 7.5
-  ); // 높은 평가 기준 (예: vote_average >= 7.5)
+  const { data, isLoading, isError } = useMovies("top_rated");
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading movies</p>;
+
+  const topRatedMovies = data.results;
 
   return (
     <div style={{ padding: "20px", color: "white" }}>

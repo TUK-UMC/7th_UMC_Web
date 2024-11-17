@@ -1,16 +1,34 @@
+// src/pages/PopularPage.jsx
 import React from "react";
-import { MOVIES } from "../mocks/movies";
+import { useFetchMovies } from "../hooks/useFetchMovies";
+import SkeletonCard from "../components/SkeletonCard";
 
 const PopularPage = () => {
-  const popularMovies = MOVIES.results.filter(
-    (movie) => movie.popularity > 500
-  ); // 인기 있는 영화 기준 (예: popularity > 500)
+  const { data, isLoading, isError } = useFetchMovies("popular");
+
+  if (isLoading) {
+    return (
+      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+        {Array.from({ length: 8 }).map((_, index) => (
+          <SkeletonCard key={index} />
+        ))}
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div style={{ color: "red" }}>
+        데이터를 불러오는 중 오류가 발생했습니다.
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: "20px", color: "white" }}>
-      <h1>인기있는 영화</h1>
+      <h1>인기 영화</h1>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-        {popularMovies.map((movie) => (
+        {data.results.map((movie) => (
           <div key={movie.id} style={{ width: "200px" }}>
             <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

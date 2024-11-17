@@ -1,36 +1,32 @@
+// src/pages/UpcomingPage.jsx
 import React from "react";
-import { useUpcomingQuery } from "../hooks/useUpcomingQuery"; // useUpcomingQuery 커스텀 훅
-import Skeleton from "../components/Skeleton"; // Skeleton 컴포넌트
-import MovieCard from "../components/MovieCard"; // MovieCard 컴포넌트
+import { useFetchMovies } from "../hooks/useFetchMovies";
+import SkeletonCard from "../components/SkeletonCard";
 
-const UpComingPage = () => {
-  const { data, isLoading, error } = useUpcomingQuery();
+const UpcomingPage = () => {
+  const { data, isLoading, isError } = useFetchMovies("upcoming");
 
   if (isLoading) {
     return (
-      <div style={{ padding: "20px" }}>
-        <h1>개봉 예정중인 영화</h1>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-          {[...Array(10)].map((_, index) => (
-            <Skeleton
-              key={index}
-              style={{ width: "200px", height: "300px", borderRadius: "10px" }}
-            />
-          ))}
-        </div>
+      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+        {Array.from({ length: 8 }).map((_, index) => (
+          <SkeletonCard key={index} />
+        ))}
       </div>
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
-      <p style={{ color: "red" }}>오류가 발생했습니다. 다시 시도해주세요.</p>
+      <div style={{ color: "red" }}>
+        데이터를 불러오는 중 오류가 발생했습니다.
+      </div>
     );
   }
 
   return (
     <div style={{ padding: "20px", color: "white" }}>
-      <h1>개봉 예정중인 영화</h1>
+      <h1>개봉 예정</h1>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
         {data.results.map((movie) => (
           <div key={movie.id} style={{ width: "200px" }}>
@@ -47,4 +43,4 @@ const UpComingPage = () => {
   );
 };
 
-export default UpComingPage;
+export default UpcomingPage;
