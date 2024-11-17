@@ -1,5 +1,4 @@
 import React from 'react';
-
 const SearchBar = ({ value, onChange, onSearch }) => {
   return (
     <div>

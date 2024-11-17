@@ -1,6 +1,5 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-
 const fetchMovieDetails = async (movieId) => {
   const response = await fetch(`https://api.example.com/movies/${movieId}`);
   if (!response.ok) {

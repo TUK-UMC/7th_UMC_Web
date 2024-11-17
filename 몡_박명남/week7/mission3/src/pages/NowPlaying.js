@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-
 const fetchNowPlayingMovies = async (page) => {
   const response = await fetch(`/api/now-playing?page=${page}`);
   if (!response.ok) throw new Error('Failed to fetch nowplaying movies');
