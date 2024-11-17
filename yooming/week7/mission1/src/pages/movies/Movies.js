@@ -11,7 +11,7 @@ const GlobalStyle = styled.div`
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background-color: #000; /* 배경색 통일 */
+    background-color: #000;
     color: white;
   }
 `;
@@ -22,17 +22,17 @@ const Container = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   padding: 20px;
-  background-color: #000; /* 배경색 통일 */
-  min-height: 100vh; /* 부모 높이 설정 */
+  background-color: #000; 
+  min-height: 100vh;
   height: auto;
 `;
 
 const CategoryGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px; /* 그리드 간격 */
+  gap: 20px;
   width: 100%;
-  align-content: start; /* 그리드 아이템 상단 정렬 */
+  align-content: start;
   height: auto;
 `;
 
@@ -41,7 +41,7 @@ const CategoryCard = styled(Link)`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 150px; /* 카드 높이 고정 */
+  height: 150px;
   background-color: #ffcc00;
   border-radius: 10px;
   overflow: hidden;

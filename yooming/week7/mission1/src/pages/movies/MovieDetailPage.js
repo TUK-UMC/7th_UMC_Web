@@ -87,7 +87,7 @@ function MovieDetailPage() {
 
         setMovie(movieResponse.data);
         setCrew(creditsResponse.data.crew.filter((member) => member.job === 'Director'));
-        setCast(creditsResponse.data.cast.slice(0, 10)); // 상위 10명의 출연진만 표시
+        setCast(creditsResponse.data.cast.slice(0, 10));
       } catch (error) {
         console.error('Error fetching movie details:', error);
         setIsError(true);
