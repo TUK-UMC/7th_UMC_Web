@@ -35,12 +35,14 @@ export const postLogin = async ({ email, password }) => {
 export const getUserData = async () => {
   try {
     const token = localStorage.getItem("accessToken");
-    const response = await instance.get(`${BASE_URL}/user/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
+    if (token) {
+      const response = await instance.get(`${BASE_URL}/user/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    }
   } catch (error) {
     throw error;
   }
