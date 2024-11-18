@@ -12,9 +12,3 @@ export const ERROR_MESSAGE = {
     INVALID: "비밀번호가 일치하지 않습니다.",
   },
 };
-
-export const AUTH_API_ERROR_MESSAGE = {
-  SIGN_UP: {
-    DUPLICATE_EMAIL: "이미 가입한 이메일 입니다.",
-  },
-};
