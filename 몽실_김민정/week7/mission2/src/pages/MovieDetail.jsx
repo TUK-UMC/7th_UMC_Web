@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { ReactComponent as Loading } from "../images/loadingIcon.svg";
+import { useQuery } from "@tanstack/react-query";
 import { getMovieCredits, getMovieDetail } from "../apis/movieAPI";
-import { useFetch } from "../hooks/useFetch";
 import { formatImageURL } from "../utils/formatImageURL";
 import { CircleProfile } from "../components/CircleProfile";
 import { ErrorPage } from "./ErrorPage";
-import { useQuery } from "@tanstack/react-query";
+import { MovieDetailSkeleton } from "./MovieDetailSkeleton";
 
 export const MovieDetail = () => {
   const { movieId } = useParams();
@@ -29,8 +28,14 @@ export const MovieDetail = () => {
     queryFn: () => getMovieCredits(movieId),
   });
 
-  if (movieInfoLoading || creditsLoading) {
-    return <Loading />;
+  const isLoading =
+    movieInfoLoading ||
+    creditsLoading ||
+    !movieInfo ||
+    movieInfo.id !== Number(movieId);
+
+  if (isLoading) {
+    return <MovieDetailSkeleton />;
   }
 
   if (creditsError || movieInfoError) {
@@ -54,6 +59,7 @@ export const MovieDetail = () => {
           <TagLine>{tagline}</TagLine>
           <OverView>{overview}</OverView>
         </InfoWrapper>
+
         <ImageWrapper>
           <img src={formatImageURL(backdrop_path)} alt='영화 포스터' />
         </ImageWrapper>
