@@ -1,29 +1,45 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useRef } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "../components/Button/Button";
 import { Input } from "../components/Input/Input";
 import { ListItem } from "../components/ListItem/ListItem";
-import { getTodos } from "../apis/todoAPI";
+import { getTodos, postTodo } from "../apis/todoAPI";
 import "./Home.css";
 
 function Home() {
+  const queryClient = useQueryClient();
+
+  const titleInputRef = useRef(null);
+  const contentInputRef = useRef(null);
+
   const { data: todos } = useQuery({
     queryKey: ["todos"],
     queryFn: getTodos,
   });
 
-  const [text, setText] = useState("");
+  const postTodoMutation = useMutation({
+    mutationFn: postTodo,
+    onSuccess: () => {
+      titleInputRef.current.value = "";
+      contentInputRef.current.value = "";
+      queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    addTodo();
   };
 
   const addTodo = () => {
-    console.log("할일 추가히기");
-  };
+    const title = titleInputRef.current.value;
+    const content = contentInputRef.current.value;
 
-  const handleInputChange = (e) => {
-    setText(e.target.value);
+    if (title !== "" && content !== "") {
+      postTodoMutation.mutate({ title, content });
+    }
   };
 
   const deleteTodo = (id) => {
@@ -41,27 +57,22 @@ function Home() {
         <div className='input-wrapper'>
           <Input
             type='text'
-            value={text}
-            onChange={handleInputChange}
+            ref={titleInputRef}
             placeholder='제목을 입력해주세요'
           />
           <Input
             type='text'
-            value={text}
-            onChange={handleInputChange}
+            ref={contentInputRef}
             placeholder='내용을 입력해주세요'
           />
         </div>
-        <Button onClick={addTodo} type='submit'>
-          Todo 생성
-        </Button>
+        <Button type='submit'>Todo 생성</Button>
       </form>
       <div className='list'>
         {todos?.map((todo) => (
           <ListItem
             key={todo.id}
-            id={todo.id}
-            task={todo.task}
+            todo={todo}
             deleteTodo={deleteTodo}
             editTodo={editTodo}
           />

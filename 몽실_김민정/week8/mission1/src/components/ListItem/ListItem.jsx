@@ -3,7 +3,7 @@ import { Button } from "../Button/Button";
 import { useState } from "react";
 import "./ListItem.css";
 
-export const ListItem = ({ id, task, deleteTodo, editTodo }) => {
+export const ListItem = ({ id, todo, deleteTodo, editTodo }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState("");
 
@@ -19,8 +19,8 @@ export const ListItem = ({ id, task, deleteTodo, editTodo }) => {
         {isEditing || (
           <div className='list-item'>
             <div className='todo-content-wrapper'>
-              <span className='todo-title'>{task}</span>
-              <span className='todo-content'>{task}</span>
+              <span className='todo-title'>{todo.title}</span>
+              <span className='todo-content'>{todo.content}</span>
             </div>
           </div>
         )}
@@ -28,11 +28,11 @@ export const ListItem = ({ id, task, deleteTodo, editTodo }) => {
           <div key={id} className='list-item'>
             <div className='todo-content-wrapper'>
               <Input
-                defaultValue={task}
+                defaultValue={todo.title}
                 onChange={(e) => setEditText(e.target.value)}
               />
               <Input
-                defaultValue={task}
+                defaultValue={todo.content}
                 onChange={(e) => setEditText(e.target.value)}
               />
             </div>

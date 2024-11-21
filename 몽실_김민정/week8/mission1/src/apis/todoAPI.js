@@ -10,3 +10,12 @@ export const getTodos = async () => {
     console.error(error.message);
   }
 };
+
+export const postTodo = async (payload) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/todo`, payload);
+    return response;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
