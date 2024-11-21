@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+
 import { getMovieCredits, getMovieDetail } from "../apis/movieAPI";
 import { formatImageURL } from "../utils/formatImageURL";
 import { CircleProfile } from "../components/CircleProfile";
