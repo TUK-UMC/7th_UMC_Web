@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "../components/Button/Button";
 import { Input } from "../components/Input/Input";
@@ -8,9 +8,8 @@ import "./Home.css";
 
 function Home() {
   const queryClient = useQueryClient();
-
-  const titleInputRef = useRef(null);
-  const contentInputRef = useRef(null);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
   const { data: todos } = useQuery({
     queryKey: ["todos"],
@@ -20,8 +19,8 @@ function Home() {
   const postTodoMutation = useMutation({
     mutationFn: postTodo,
     onSuccess: () => {
-      titleInputRef.current.value = "";
-      contentInputRef.current.value = "";
+      setTitle("");
+      setContent("");
       queryClient.invalidateQueries({
         queryKey: ["todos"],
       });
@@ -34,9 +33,6 @@ function Home() {
   };
 
   const addTodo = () => {
-    const title = titleInputRef.current.value;
-    const content = contentInputRef.current.value;
-
     if (title !== "" && content !== "") {
       postTodoMutation.mutate({ title, content });
     }
@@ -57,16 +53,20 @@ function Home() {
         <div className='input-wrapper'>
           <Input
             type='text'
-            ref={titleInputRef}
             placeholder='제목을 입력해주세요'
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
           <Input
             type='text'
-            ref={contentInputRef}
             placeholder='내용을 입력해주세요'
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        <Button type='submit'>Todo 생성</Button>
+        <Button type='submit' active={title !== "" && content !== ""}>
+          Todo 생성
+        </Button>
       </form>
       <div className='list'>
         {todos?.map((todo) => (
