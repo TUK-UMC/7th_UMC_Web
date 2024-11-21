@@ -13,31 +13,53 @@ export const ListItem = ({ id, task, deleteTodo, editTodo }) => {
   };
 
   return (
-    <div key={id} className='todo-wrapper'>
-      {/**수정이 아닐 때 */}
-      {isEditing || (
-        <div className='list-item'>
-          <p>{id}.</p>
-          <p className='todo-title'>{task}</p>
-        </div>
-      )}
-      {/** 수정 중 */}
-      {isEditing && (
-        <div key={id} className='list-item'>
-          <p>{id}</p>
-          <Input
-            defaultValue={task}
-            onChange={(e) => setEditText(e.target.value)}
-          />
-        </div>
-      )}
-      <div className='button-wrapper'>
-        <Button onClick={() => deleteTodo(id)}>삭제하기</Button>
-        {isEditing ? (
-          <Button onClick={handleDoneButton}>수정 완료</Button>
-        ) : (
-          <Button onClick={() => setIsEditing(true)}>수정 진행</Button>
+    <div className='listitem-container'>
+      <input type='checkbox' />
+      <div key={id} className='todo-wrapper'>
+        {isEditing || (
+          <div className='list-item'>
+            <div className='todo-content-wrapper'>
+              <span className='todo-title'>{task}</span>
+              <span className='todo-content'>{task}</span>
+            </div>
+          </div>
         )}
+        {isEditing && (
+          <div key={id} className='list-item'>
+            <div className='todo-content-wrapper'>
+              <Input
+                defaultValue={task}
+                onChange={(e) => setEditText(e.target.value)}
+              />
+              <Input
+                defaultValue={task}
+                onChange={(e) => setEditText(e.target.value)}
+              />
+            </div>
+          </div>
+        )}
+        <div className='button-wrapper'>
+          {isEditing ? (
+            <Button onClick={handleDoneButton} className='listItem-button'>
+              수정 완료
+            </Button>
+          ) : (
+            <>
+              <Button
+                onClick={() => deleteTodo(id)}
+                className='listItem-button'
+              >
+                삭제
+              </Button>
+              <Button
+                onClick={() => setIsEditing(true)}
+                className='listItem-button'
+              >
+                수정
+              </Button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

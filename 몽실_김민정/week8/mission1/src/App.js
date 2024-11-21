@@ -43,11 +43,24 @@ function App() {
 
   return (
     <div className='container'>
-      <h1 className='title'>할일을 등록하세요!</h1>
-      <form onSubmit={handleSubmit} className='form' d>
-        <Input type='text' value={text} onChange={handleInputChange} />
+      <h1 className='title'> ✏️ UMC TODO LIST ✏️</h1>
+      <form onSubmit={handleSubmit} className='form'>
+        <div className='input-wrapper'>
+          <Input
+            type='text'
+            value={text}
+            onChange={handleInputChange}
+            placeholder='제목을 입력해주세요'
+          />
+          <Input
+            type='text'
+            value={text}
+            onChange={handleInputChange}
+            placeholder='내용을 입력해주세요'
+          />
+        </div>
         <Button onClick={addTodo} type='submit'>
-          할 일 등록
+          Todo 생성
         </Button>
       </form>
       <div className='list'>
