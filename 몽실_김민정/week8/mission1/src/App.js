@@ -1,7 +1,7 @@
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
+import { TodoDetail } from "./pages/TodoDetail/TodoDetail";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { TodoDetail } from "./pages/TodoDetail";
 
 const router = createBrowserRouter(
   [

@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { getDetailTodoInfo } from "../apis/todoAPI";
-import { Loading } from "./Loading";
+import { getDetailTodoInfo } from "../../apis/todoAPI";
+import { Loading } from "../Loading/Loading";
+import { formatDateToString } from "../../utils/formatDateToString";
 import "./TodoDetail.css";
-import { formatDateToString } from "../utils/formatDateToString";
 
 export const TodoDetail = () => {
   const { id } = useParams();

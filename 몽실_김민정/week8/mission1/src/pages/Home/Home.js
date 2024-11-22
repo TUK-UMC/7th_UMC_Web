@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button } from "../components/Button/Button";
-import { Input } from "../components/Input/Input";
-import { ListItem } from "../components/ListItem/ListItem";
-import { getTodos, postTodo } from "../apis/todoAPI";
+import { Button } from "../../components/Button/Button";
+import { Input } from "../../components/Input/Input";
+import { ListItem } from "../../components/ListItem/ListItem";
+import { getTodos, postTodo } from "../../apis/todoAPI";
 import "./Home.css";
 
 function Home() {
