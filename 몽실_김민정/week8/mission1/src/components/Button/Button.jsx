@@ -1,6 +1,6 @@
 import "./Button.css";
 
-export const Button = ({ children, className, active, ...rest }) => {
+export const Button = ({ children, className, active = true, ...rest }) => {
   return (
     <button
       className={`button-container ${

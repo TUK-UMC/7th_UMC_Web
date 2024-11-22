@@ -1,26 +1,57 @@
+import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
-import { useState } from "react";
-import "./ListItem.css";
+import { patchEditTodo } from "../../apis/todoAPI";
 
-export const ListItem = ({ id, todo, deleteTodo, editTodo }) => {
+import "./ListItem.css";
+import { useNavigate } from "react-router-dom";
+
+export const ListItem = ({ id, todo, deleteTodo }) => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
   const [isEditing, setIsEditing] = useState(false);
-  const [editText, setEditText] = useState("");
+  const [editTitle, setEditTitle] = useState(todo.title);
+  const [editContent, setEditContent] = useState(todo.content);
+  const [editCheck, setEditCheck] = useState(todo.checked);
+
+  const patchTodoMutation = useMutation({
+    mutationFn: () =>
+      patchEditTodo(id, {
+        title: editTitle,
+        content: editContent,
+        checked: editCheck,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
+    },
+  });
 
   const handleDoneButton = () => {
-    editTodo(id, editText);
     setIsEditing(false);
+    patchTodoMutation.mutate();
   };
 
   return (
     <div className='listitem-container'>
-      <input type='checkbox' />
+      <input
+        type='checkbox'
+        checked={editCheck}
+        onChange={() => setEditCheck((prev) => !prev)}
+      />
       <div key={id} className='todo-wrapper'>
         {isEditing || (
           <div className='list-item'>
-            <div className='todo-content-wrapper'>
-              <span className='todo-title'>{todo.title}</span>
-              <span className='todo-content'>{todo.content}</span>
+            <div
+              className='todo-content-wrapper'
+              onClick={() => navigate(`todo/${id}`)}
+            >
+              <span className='listItem-title'>{todo.title}</span>
+              <span className='listItem-content'>{todo.content}</span>
             </div>
           </div>
         )}
@@ -29,11 +60,11 @@ export const ListItem = ({ id, todo, deleteTodo, editTodo }) => {
             <div className='todo-content-wrapper'>
               <Input
                 defaultValue={todo.title}
-                onChange={(e) => setEditText(e.target.value)}
+                onChange={(e) => setEditTitle(e.target.value)}
               />
               <Input
                 defaultValue={todo.content}
-                onChange={(e) => setEditText(e.target.value)}
+                onChange={(e) => setEditContent(e.target.value)}
               />
             </div>
           </div>

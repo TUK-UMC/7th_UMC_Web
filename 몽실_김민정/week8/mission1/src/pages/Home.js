@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "../components/Button/Button";
 import { Input } from "../components/Input/Input";
@@ -42,10 +42,6 @@ function Home() {
     console.log("할일 삭제");
   };
 
-  const editTodo = (id, text) => {
-    console.log("할일 수정");
-  };
-
   return (
     <div className='container'>
       <h1 className='title'> ✏️ UMC TODO LIST ✏️</h1>
@@ -72,9 +68,9 @@ function Home() {
         {todos?.map((todo) => (
           <ListItem
             key={todo.id}
+            id={todo.id}
             todo={todo}
             deleteTodo={deleteTodo}
-            editTodo={editTodo}
           />
         ))}
       </div>
