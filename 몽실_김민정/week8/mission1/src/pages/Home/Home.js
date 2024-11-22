@@ -5,13 +5,19 @@ import { Input } from "../../components/Input/Input";
 import { ListItem } from "../../components/ListItem/ListItem";
 import { getTodos, postTodo } from "../../apis/todoAPI";
 import "./Home.css";
+import { Loading } from "../Loading/Loading";
+import { Error } from "../Error/Error";
 
 function Home() {
   const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const { data: todos } = useQuery({
+  const {
+    data: todos,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["todos"],
     queryFn: getTodos,
   });
@@ -26,6 +32,14 @@ function Home() {
       });
     },
   });
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <Error />;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();

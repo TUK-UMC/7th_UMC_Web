@@ -1,3 +1,4 @@
+import { Error } from "./pages/Error/Error";
 import Home from "./pages/Home/Home";
 import { TodoDetail } from "./pages/TodoDetail/TodoDetail";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
@@ -7,11 +8,11 @@ const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <Home />,
-    },
-    {
-      path: "/todo/:id",
-      element: <TodoDetail />,
+      errorElement: <Error />,
+      children: [
+        { path: "", element: <Home /> },
+        { path: "todo/:id", element: <TodoDetail /> },
+      ],
     },
   ],
   {

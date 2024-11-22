@@ -1,11 +1,11 @@
-.loading-container {
+.error-container {
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 30px;
   font-size: 18px;
-  gap: 15px;
   font-weight: 700;
 }
