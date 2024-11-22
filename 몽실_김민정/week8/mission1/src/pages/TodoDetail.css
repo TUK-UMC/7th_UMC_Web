@@ -1,16 +1,11 @@
 .todo-detail-container {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 30px;
-  padding: 50% 10%;
+  margin-top: 55px;
+  text-align: center;
 }
 
 .todo-card-container {
   width: 70%;
+  text-align: left;
   height: max-content;
   border-top: solid 5px #3791f7;
   margin: auto;
@@ -22,7 +17,8 @@
 .todo-title {
   color: black;
   font-size: 23px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  margin-left: 5px;
 }
 
 .todo-detail-content-wrapper {
@@ -36,4 +32,5 @@
 .todo-date {
   font-size: 12px;
   color: gray;
+  margin-left: 5px;
 }

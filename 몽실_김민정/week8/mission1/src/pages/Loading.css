@@ -2,6 +2,10 @@
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: 22px;
+  gap: 15px;
+  font-weight: 700;
 }
