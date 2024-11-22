@@ -1,27 +1,81 @@
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getDetailTodoInfo } from "../../apis/todoAPI";
 import { Loading } from "../Loading/Loading";
 import { formatDateToString } from "../../utils/formatDateToString";
+import { ReactComponent as EditIcon } from "../../assets/edit.svg";
+import { ReactComponent as CheckIcon } from "../../assets/check.svg";
 import "./TodoDetail.css";
 
 export const TodoDetail = () => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
   const { id } = useParams();
-  const { data: todo, isLoading } = useQuery({
+
+  const {
+    data: todo,
+    isLoading,
+    isSuccess,
+  } = useQuery({
     queryKey: ["detailTodoInfo", id],
     queryFn: () => getDetailTodoInfo(id),
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      const { title, content } = todo;
+      setTitle(title);
+      setContent(content);
+    }
+  }, [isSuccess, todo]);
 
   if (isLoading) {
     return <Loading />;
   }
 
+  const handleDoneButton = () => {
+    console.log(title, content);
+  };
+
   return (
     <div className='todo-detail-container'>
       <h1 className='title'> ✏️ UMC TODO LIST ✏️</h1>
       <div className='todo-card-container'>
-        <h2 className='todo-title'>{todo.title}</h2>
-        <div className='todo-detail-content-wrapper'>{todo.content}</div>
+        {isEditing ? (
+          <>
+            <div className='todo-title-wrapper'>
+              <input
+                className='todo-title'
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <button className='edit-button' onClick={handleDoneButton}>
+                <CheckIcon />
+              </button>
+            </div>
+            <input
+              value={content}
+              className='todo-detail-content-wrapper'
+              onChange={(e) => setContent(e.target.value)}
+            />
+          </>
+        ) : (
+          <>
+            <div className='todo-title-wrapper'>
+              <h2 className='todo-title'>{title}</h2>
+              <button
+                className='edit-button'
+                onClick={() => setIsEditing((prev) => !prev)}
+              >
+                <EditIcon />
+              </button>
+            </div>
+            <div className='todo-detail-content-wrapper'>{content}</div>
+          </>
+        )}
         <span className='todo-date'>
           {formatDateToString(new Date(todo.updatedAt))}
         </span>

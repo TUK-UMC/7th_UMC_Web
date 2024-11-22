@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+
 import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input/Input";
 import { ListItem } from "../../components/ListItem/ListItem";
-import { getTodos, postTodo } from "../../apis/todoAPI";
+import { getTodos } from "../../apis/todoAPI";
 import { Loading } from "../Loading/Loading";
 import { Error } from "../Error/Error";
+import { usePostTodoMutation } from "../../hooks/usePostTodoMutation";
+
 import "./Home.css";
 
 function Home() {
-  const queryClient = useQueryClient();
+  const { mutate: postTodoMutate } = usePostTodoMutation();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -20,17 +23,6 @@ function Home() {
   } = useQuery({
     queryKey: ["todos"],
     queryFn: getTodos,
-  });
-
-  const postTodoMutation = useMutation({
-    mutationFn: postTodo,
-    onSuccess: () => {
-      setTitle("");
-      setContent("");
-      queryClient.invalidateQueries({
-        queryKey: ["todos"],
-      });
-    },
   });
 
   if (isLoading) {
@@ -48,7 +40,15 @@ function Home() {
 
   const addTodo = () => {
     if (title !== "" && content !== "") {
-      postTodoMutation.mutate({ title, content });
+      postTodoMutate(
+        { title, content },
+        {
+          onSuccess: () => {
+            setTitle("");
+            setContent("");
+          },
+        }
+      );
     }
   };
 

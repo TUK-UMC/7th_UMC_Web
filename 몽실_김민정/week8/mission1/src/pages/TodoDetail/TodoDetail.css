@@ -15,18 +15,35 @@
 }
 
 .todo-title {
+  width: 100%;
   color: black;
   font-size: 23px;
   margin-bottom: 25px;
-  margin-left: 5px;
+  margin: 20px 5px;
+  border-radius: 7px;
+  padding: 5px;
+}
+
+.todo-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-button {
+  border: none;
+  background-color: white;
+  cursor: pointer;
 }
 
 .todo-detail-content-wrapper {
   background-color: #dedede;
+  width: 100%;
   border-radius: 7px;
   padding: 15px;
   margin-bottom: 10px;
   font-size: 18px;
+  border: none;
 }
 
 .todo-date {

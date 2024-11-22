@@ -1,52 +1,37 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
-import { deleteTodo, patchEditTodo } from "../../apis/todoAPI";
+import { usePatchEditTodoMutation } from "../../hooks/usePatchEditTodoMutation";
+import { useDeleteTodoMutation } from "../../hooks/useDeleteTodoMutation";
 
 import "./ListItem.css";
 
 export const ListItem = ({ id, todo }) => {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { mutate: patchEditTodoMutate } = usePatchEditTodoMutation();
+  const { mutate: deleteTodoMutate } = useDeleteTodoMutation();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(todo.title);
   const [editContent, setEditContent] = useState(todo.content);
   const [editCheck, setEditCheck] = useState(todo.checked);
 
-  const patchTodoMutation = useMutation({
-    mutationFn: () =>
-      patchEditTodo(id, {
+  const handleDoneButton = () => {
+    setIsEditing(false);
+    patchEditTodoMutate({
+      id,
+      data: {
         title: editTitle,
         content: editContent,
         checked: editCheck,
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["todos"],
-      });
-    },
-  });
-
-  const deleteTodoMutation = useMutation({
-    mutationFn: () => deleteTodo(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["todos"],
-      });
-    },
-  });
-
-  const handleDoneButton = () => {
-    setIsEditing(false);
-    patchTodoMutation.mutate();
+      },
+    });
   };
 
   const handleDeleteButton = () => {
-    deleteTodoMutation.mutate();
+    deleteTodoMutate(id);
   };
 
   return (
