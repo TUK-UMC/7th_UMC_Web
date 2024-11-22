@@ -19,3 +19,21 @@ export const postTodo = async (payload) => {
     console.error(error.message);
   }
 };
+
+export const patchEditTodo = async (id, payload) => {
+  try {
+    const response = await axios.patch(`${BASE_URL}/todo/${id}`, payload);
+    return response;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+export const getDetailTodoInfo = async (id) => {
+  try {
+    const response = await axios(`${BASE_URL}/todo/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
