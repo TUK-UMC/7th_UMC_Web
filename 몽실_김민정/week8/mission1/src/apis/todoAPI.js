@@ -37,3 +37,12 @@ export const getDetailTodoInfo = async (id) => {
     console.error(error.message);
   }
 };
+
+export const deleteTodo = async (id) => {
+  try {
+    const response = await axios.delete(`${BASE_URL}/todo/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};

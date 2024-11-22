@@ -1,14 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
-import { patchEditTodo } from "../../apis/todoAPI";
+import { deleteTodo, patchEditTodo } from "../../apis/todoAPI";
 
 import "./ListItem.css";
-import { useNavigate } from "react-router-dom";
 
-export const ListItem = ({ id, todo, deleteTodo }) => {
+export const ListItem = ({ id, todo }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -31,9 +31,22 @@ export const ListItem = ({ id, todo, deleteTodo }) => {
     },
   });
 
+  const deleteTodoMutation = useMutation({
+    mutationFn: () => deleteTodo(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
+    },
+  });
+
   const handleDoneButton = () => {
     setIsEditing(false);
     patchTodoMutation.mutate();
+  };
+
+  const handleDeleteButton = () => {
+    deleteTodoMutation.mutate();
   };
 
   return (
@@ -76,10 +89,7 @@ export const ListItem = ({ id, todo, deleteTodo }) => {
             </Button>
           ) : (
             <>
-              <Button
-                onClick={() => deleteTodo(id)}
-                className='listItem-button'
-              >
+              <Button onClick={handleDeleteButton} className='listItem-button'>
                 삭제
               </Button>
               <Button

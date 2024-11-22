@@ -4,9 +4,9 @@ import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input/Input";
 import { ListItem } from "../../components/ListItem/ListItem";
 import { getTodos, postTodo } from "../../apis/todoAPI";
-import "./Home.css";
 import { Loading } from "../Loading/Loading";
 import { Error } from "../Error/Error";
+import "./Home.css";
 
 function Home() {
   const queryClient = useQueryClient();
@@ -52,10 +52,6 @@ function Home() {
     }
   };
 
-  const deleteTodo = (id) => {
-    console.log("할일 삭제");
-  };
-
   return (
     <div className='container'>
       <h1 className='title'> ✏️ UMC TODO LIST ✏️</h1>
@@ -80,12 +76,7 @@ function Home() {
       </form>
       <div className='list'>
         {todos?.map((todo) => (
-          <ListItem
-            key={todo.id}
-            id={todo.id}
-            todo={todo}
-            deleteTodo={deleteTodo}
-          />
+          <ListItem key={todo.id} id={todo.id} todo={todo} />
         ))}
       </div>
     </div>
