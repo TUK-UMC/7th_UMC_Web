@@ -40,6 +40,7 @@ export const ListItem = ({ id, todo }) => {
         type='checkbox'
         checked={editCheck}
         onChange={() => setEditCheck((prev) => !prev)}
+        disabled={!isEditing}
       />
       <div key={id} className='todo-wrapper'>
         {isEditing || (
