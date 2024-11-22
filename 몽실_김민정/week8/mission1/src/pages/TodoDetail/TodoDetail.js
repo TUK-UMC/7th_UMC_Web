@@ -1,19 +1,24 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+
 import { getDetailTodoInfo } from "../../apis/todoAPI";
 import { Loading } from "../Loading/Loading";
 import { formatDateToString } from "../../utils/formatDateToString";
 import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import { ReactComponent as CheckIcon } from "../../assets/check.svg";
+import { usePatchEditTodoMutation } from "../../hooks/usePatchEditTodoMutation";
+
 import "./TodoDetail.css";
 
 export const TodoDetail = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [checked, setChecked] = useState(false);
 
   const { id } = useParams();
+  const { mutate: patchTodoMutate } = usePatchEditTodoMutation();
 
   const {
     data: todo,
@@ -26,9 +31,10 @@ export const TodoDetail = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      const { title, content } = todo;
+      const { title, content, checked } = todo;
       setTitle(title);
       setContent(content);
+      setChecked(checked);
     }
   }, [isSuccess, todo]);
 
@@ -37,7 +43,15 @@ export const TodoDetail = () => {
   }
 
   const handleDoneButton = () => {
-    console.log(title, content);
+    setIsEditing(false);
+    patchTodoMutate({
+      id,
+      data: {
+        title,
+        content,
+        checked,
+      },
+    });
   };
 
   return (
@@ -61,6 +75,14 @@ export const TodoDetail = () => {
               className='todo-detail-content-wrapper'
               onChange={(e) => setContent(e.target.value)}
             />
+            <div className='checkbox-wrapper'>
+              <input
+                type='checkbox'
+                checked={checked}
+                onClick={() => setChecked((prev) => !prev)}
+              ></input>
+              할일을 완료했나요?
+            </div>
           </>
         ) : (
           <>
@@ -74,6 +96,10 @@ export const TodoDetail = () => {
               </button>
             </div>
             <div className='todo-detail-content-wrapper'>{content}</div>
+            <div className='checkbox-wrapper'>
+              <input type='checkbox' checked={checked} disabled></input>
+              할일을 완료했나요?
+            </div>
           </>
         )}
         <span className='todo-date'>
