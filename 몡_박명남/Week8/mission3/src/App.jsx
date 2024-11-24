@@ -1,36 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { fetchPopularMovies, searchMovies } from "./api/tmdbApi";
-import GlobalStyles from "./styles/GlobalStyles";
-import MovieList from "./components/MovieList";
-import SearchBar from "./components/SearchBar";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import HomePage from "./pages/HomePage";
+import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchPopularMovies();
-      setMovies(data);
-    };
-    fetchData();
-  }, []);
-
-  const handleSearch = async (query) => {
-    if (query.trim() === "") {
-      const data = await fetchPopularMovies();
-      setMovies(data);
-    } else {
-      const data = await searchMovies(query);
-      setMovies(data);
-    }
-  };
-
   return (
-    <>
-      <GlobalStyles />
-      <SearchBar onSearch={handleSearch} />
-      <MovieList movies={movies} />
-    </>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      </Routes>
+    </Router>
   );
 };
 
