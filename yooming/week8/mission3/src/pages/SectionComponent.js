@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import Spinner from '../components/Spinner';
 import { useNavigate } from 'react-router-dom';
-import { tmdbAxiosInstance } from '../apis/axios-instance'; // tmdbAxiosInstance 가져오기
+import { tmdbAxiosInstance } from '../apis/axios-instance';
 
 const Section = styled.div`
   margin-bottom: 40px;
@@ -118,9 +118,12 @@ function SectionComponent({ title, endpoint, morePage }) {
   return (
     <Section>
       <SectionHeader>
-        <h2>{title}</h2>
-        <a onClick={() => navigate(morePage)}>더보기</a>
+      <h2>{title}</h2>
+      <button onClick={() => navigate(morePage)} style={{ background: 'none', border: 'none', color: '#ff3366', cursor: 'pointer' }}>
+        더보기
+      </button>
       </SectionHeader>
+
       {isLoading ? (
         <Spinner />
       ) : isError ? (
