@@ -21,7 +21,7 @@ export const TextWrapper = styled.div`
 `;
 
 export const ShoppingCart = styled(Link)`
-  font-size: 20px;
+  font-size: 16px;
   cursor: pointer;
   position: relative;
   color: ${({ theme }) => theme.white};
@@ -42,6 +42,6 @@ export const ShoppingCount = styled.div`
   justify-content: center;
   align-items: center;
   top: -10px;
-  right: -20px;
-  padding: 3px;
+  right: -25px;
+  padding: 3px 5px;
 `;
