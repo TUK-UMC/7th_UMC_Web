@@ -1,35 +1,22 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AlbumCard } from "../components/AlbumCard";
 import { CartInitModal } from "../components/CartInitModal";
-import { clearCart } from "../features/cart/cartSlice";
+import { openClearCartModal } from "../features/modal/modalSlice";
 import * as S from "../styles/Home.style";
 
 const Home = () => {
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const { cartItems, total } = useSelector((store) => {
-    return store.cart;
-  });
+  const { cartItems, total } = useSelector((store) => store.cart);
+  const { clearCartModalVisiblity } = useSelector((store) => store.modal);
+
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
-    setIsOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsOpenModal(false);
-  };
-
-  const handleDelete = () => {
-    dispatch(clearCart());
-    setIsOpenModal(false);
+    dispatch(openClearCartModal(true));
   };
 
   return (
     <>
-      {isOpenModal && (
-        <CartInitModal onClose={handleCloseModal} onDelete={handleDelete} />
-      )}
+      {clearCartModalVisiblity && <CartInitModal />}
       <S.HomePageContainer>
         <h1 className='main-text'>당신이 선택한 음악</h1>
         <S.AlbumCardLists>
