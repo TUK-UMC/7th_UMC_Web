@@ -3,9 +3,11 @@ import { AlbumCard } from "../components/AlbumCard";
 import { CartInitModal } from "../components/CartInitModal";
 import { openClearCartModal } from "../features/modal/modalSlice";
 import * as S from "../styles/Home.style";
+import useCartStore from "../store/cartStore";
 
 const Home = () => {
-  const { cartItems, total } = useSelector((store) => store.cart);
+  const { cartItems, total } = useCartStore((state) => state);
+
   const { clearCartModalVisiblity } = useSelector((store) => store.modal);
 
   const dispatch = useDispatch();

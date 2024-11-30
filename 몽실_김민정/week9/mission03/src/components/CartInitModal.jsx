@@ -1,13 +1,14 @@
 import { useDispatch } from "react-redux";
-import { clearCart } from "../features/cart/cartSlice";
 import { openClearCartModal } from "../features/modal/modalSlice";
 import * as S from "../styles/CartInitModal.style";
+import useCartStore from "../store/cartStore";
 
 export const CartInitModal = () => {
   const dispatch = useDispatch();
+  const { clearCart } = useCartStore();
 
   const handleClickYes = () => {
-    dispatch(clearCart());
+    clearCart();
     dispatch(openClearCartModal(false));
   };
 

@@ -1,8 +1,9 @@
-import { useSelector } from "react-redux";
 import * as S from "../styles/Navbar.style";
+import useCartStore from "../store/cartStore";
 
 export const Navbar = () => {
-  const { amount } = useSelector((store) => store.cart);
+  const { amount } = useCartStore((state) => state);
+
   return (
     <S.NavbarContainer>
       <S.TextWrapper>

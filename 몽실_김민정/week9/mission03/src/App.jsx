@@ -1,19 +1,18 @@
 import { useEffect } from "react";
 import { ThemeProvider } from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
 import Home from "./pages/Home";
 import theme from "./styles/theme";
 import { Navbar } from "./components/Navbar";
-import { calculateTotals } from "./features/cart/cartSlice";
+import useCartStore from "./store/cartStore";
 import "./App.css";
 
 function App() {
-  const dispatch = useDispatch();
-  const { cartItems } = useSelector((store) => store.cart);
+  const { cartItems, calculateTotals } = useCartStore();
 
   useEffect(() => {
-    dispatch(calculateTotals());
-  }, [cartItems, dispatch]);
+    calculateTotals();
+  }, [cartItems, calculateTotals]);
+
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
