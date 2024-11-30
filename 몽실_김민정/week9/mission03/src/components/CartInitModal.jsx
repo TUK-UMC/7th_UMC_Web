@@ -1,19 +1,18 @@
-import { useDispatch } from "react-redux";
-import { openClearCartModal } from "../features/modal/modalSlice";
 import * as S from "../styles/CartInitModal.style";
 import useCartStore from "../store/cartStore";
+import useModalStore from "../store/modalStore";
 
 export const CartInitModal = () => {
-  const dispatch = useDispatch();
-  const { clearCart } = useCartStore();
+  const { clearCart } = useCartStore((state) => state);
+  const { openClearCartModal } = useModalStore((state) => state);
 
   const handleClickYes = () => {
     clearCart();
-    dispatch(openClearCartModal(false));
+    openClearCartModal(false);
   };
 
   const handleClickNo = () => {
-    dispatch(openClearCartModal(false));
+    openClearCartModal(false);
   };
 
   return (
