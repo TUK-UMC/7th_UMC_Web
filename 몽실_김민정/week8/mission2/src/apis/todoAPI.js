@@ -3,12 +3,12 @@ import axios from "axios";
 const BASE_URL = process.env.REACT_APP_TODO_BASE_URL;
 
 const axiosInstance = axios.create({
-  
-})
+  baseURL: `${BASE_URL}/todo`,
+});
 
 export const getTodos = async () => {
   try {
-    const response = await axios(`${BASE_URL}/todo`);
+    const response = await axiosInstance.get();
     return response.data[0];
   } catch (error) {
     console.error(error.message);
@@ -17,7 +17,7 @@ export const getTodos = async () => {
 
 export const postTodo = async (payload) => {
   try {
-    const response = await axios.post(`${BASE_URL}/todo`, payload);
+    const response = await axiosInstance.post(``, payload);
     return response;
   } catch (error) {
     console.error(error.message);
@@ -26,7 +26,7 @@ export const postTodo = async (payload) => {
 
 export const patchEditTodo = async (id, payload) => {
   try {
-    const response = await axios.patch(`${BASE_URL}/todo/${id}`, payload);
+    const response = await axiosInstance.patch(`/${id}`, payload);
     return response;
   } catch (error) {
     console.error(error.message);
@@ -35,7 +35,7 @@ export const patchEditTodo = async (id, payload) => {
 
 export const getDetailTodoInfo = async (id) => {
   try {
-    const response = await axios(`${BASE_URL}/todo/${id}`);
+    const response = await axiosInstance.get(`/${id}`);
     return response.data;
   } catch (error) {
     console.error(error.message);
@@ -44,7 +44,7 @@ export const getDetailTodoInfo = async (id) => {
 
 export const deleteTodo = async (id) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/todo/${id}`);
+    const response = await axiosInstance.delete(`/${id}`);
     return response.data;
   } catch (error) {
     console.error(error.message);
