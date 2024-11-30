@@ -29,4 +29,8 @@ export const QuantityButtonWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 5px;
+
+  & > * {
+    cursor: pointer;
+  }
 `;

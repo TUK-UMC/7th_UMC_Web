@@ -34,14 +34,16 @@ export const ShoppingCart = styled(Link)`
 
 export const ShoppingCount = styled.div`
   position: absolute;
-  border-radius: 10px;
+  border-radius: 100px;
   background-color: gray;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 2px;
   top: -10px;
   right: -25px;
-  padding: 3px 5px;
+  width: 20px;
+  height: 20px;
 `;

@@ -1,9 +1,15 @@
+import { useDispatch, useSelector } from "react-redux";
 import { AlbumCard } from "../components/AlbumCard";
 import { Navbar } from "../components/Navbar";
-import cartItems from "../mocks/cardItems";
+import { clearCart } from "../features/cart/cartSlice";
 import * as S from "../styles/Home.style";
 
 const Home = () => {
+  const { cartItems, total } = useSelector((store) => {
+    return store.cart;
+  });
+  const dispatch = useDispatch();
+
   return (
     <>
       <Navbar />
@@ -14,6 +20,14 @@ const Home = () => {
             <AlbumCard key={album.id} data={album} />
           ))}
         </S.AlbumCardLists>
+        <S.Seperator />
+        <S.TotalWrapper>
+          <span>총 가격</span>
+          <span>₩ {total}</span>
+        </S.TotalWrapper>
+        <S.DeleteAllButton onClick={() => dispatch(clearCart())}>
+          장바구니 초기화
+        </S.DeleteAllButton>
       </S.HomePageContainer>
     </>
   );

@@ -20,3 +20,30 @@ export const AlbumCardLists = styled.div`
   flex-direction: column;
   gap: 15px;
 `;
+
+export const Seperator = styled.hr`
+  background-color: gray;
+  margin-top: 50px;
+  width: 100%;
+`;
+
+export const TotalWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 40px 7px;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const DeleteAllButton = styled.button`
+  padding: 10px;
+  border: 1px solid red;
+  color: red;
+  border-radius: 7px;
+  cursor: pointer;
+  background-color: white;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
