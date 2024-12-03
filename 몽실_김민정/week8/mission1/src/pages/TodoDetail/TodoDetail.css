@@ -1,0 +1,59 @@
+.todo-detail-container {
+  margin-top: 55px;
+  text-align: center;
+}
+
+.todo-card-container {
+  width: 70%;
+  text-align: left;
+  height: max-content;
+  border-top: solid 5px #3791f7;
+  margin: auto;
+  padding: 10px 20px;
+  border-radius: 7px;
+  box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.17);
+}
+
+.todo-title {
+  width: 100%;
+  color: black;
+  font-size: 23px;
+  margin-bottom: 25px;
+  margin: 20px 5px;
+  border-radius: 7px;
+  padding: 5px;
+}
+
+.todo-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-button {
+  border: none;
+  background-color: white;
+  cursor: pointer;
+}
+
+.todo-detail-content-wrapper {
+  background-color: #dedede;
+  width: 100%;
+  border-radius: 7px;
+  padding: 15px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  border: none;
+}
+
+.todo-date {
+  font-size: 12px;
+  color: gray;
+  margin-left: 5px;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}

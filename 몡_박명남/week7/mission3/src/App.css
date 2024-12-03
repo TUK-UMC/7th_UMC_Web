@@ -1,0 +1,31 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+}
+
+header {
+  background-color: #181818;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f8f8f8;
+}
+
+footer {
+  background-color: #181818;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
