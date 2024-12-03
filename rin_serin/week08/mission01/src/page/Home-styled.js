@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import InputBox from "../components/Inputbox";
 
 const All = styled.div`
   display: flex;
@@ -6,6 +7,14 @@ const All = styled.div`
   align-items: center;
   padding: 120px 0 0 0;
 `;
+
+const SearchTodoBox = styled.div`
+  display:  flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 8px;
+  width: 50%;
+`
 
 const TodoForms = styled.form`
   display: flex;
@@ -87,4 +96,4 @@ gap: 4px;
 width: 68px;
 `;
 
-export{ All, TodoForms, StyledCheckbox, Todos, EachTodo, TodoFront, TodoContents , TodoButtons, TodoButton}
+export{ All, SearchTodoBox, TodoForms, StyledCheckbox, Todos, EachTodo, TodoFront, TodoContents , TodoButtons, TodoButton}

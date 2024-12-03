@@ -39,17 +39,25 @@ export const useTodoApi = () => {
         });
     };
 
-    const deleteTodo = async (id) => {
-        try {
-            const response = await fetch(`${apiBaseUrl}/${id}`, { method: "DELETE" });
-            if (!response.ok) throw new Error(`API 호출 실패: ${response.statusText}`);
-            console.log("삭제 성공");
-            return await response.json();
-        } catch (error) {
-            console.error("삭제 실패:", error.message);
-            throw error;
-        }
-    };
+    const deleteTodo = async(id) => {
+        // 서버에 항목 삭제 요청
+        fetch(`http://localhost:3000/todo/${id}`, {
+          method: 'DELETE',
+        })
+          .then((response) => {
+            if (response.ok) {
+              // 삭제 성공 시, 로컬 상태에서 항목 제거
+              setTodos(todos.filter(todo => todo.id !== id)); // 삭제된 항목 제외
+            } else {
+              throw new Error("삭제 실패");
+            }
+          })
+          .catch((error) => {
+            console.error("삭제 오류:", error);
+          });
+      };
+      
+      
 
     return { addTodo, updateTodo, deleteTodo, isLoading, error };
 };
