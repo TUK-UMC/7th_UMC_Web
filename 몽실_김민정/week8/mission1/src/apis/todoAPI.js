@@ -2,6 +2,10 @@ import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_TODO_BASE_URL;
 
+const axiosInstance = axios.create({
+  
+})
+
 export const getTodos = async () => {
   try {
     const response = await axios(`${BASE_URL}/todo`);
