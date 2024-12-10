@@ -13,7 +13,7 @@ export const MovieDetail = () => {
 
   const {
     data: movieInfo,
-    loading: movieInfoLoading,
+    isFetching: movieInfoFetching,
     error: movieInfoError,
   } = useQuery({
     queryKey: ["movieDetail"],
@@ -29,7 +29,7 @@ export const MovieDetail = () => {
     queryFn: () => getMovieCredits(movieId),
   });
 
-  if (movieInfoLoading || creditsLoading) {
+  if (movieInfoFetching || creditsLoading) {
     return <Loading />;
   }
 
