@@ -12,7 +12,6 @@ export const useFetch = (func) => {
         const result = await func(payload);
         setData(result);
         setLoading(false);
-        console.log(result);
         return { result, loading, error, mutate };
       } catch (error) {
         setError(error);

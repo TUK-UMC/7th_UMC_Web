@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Input } from "../Input/Input";
@@ -9,7 +9,7 @@ import "./ListItem.css";
 import { useFetch } from "../../hooks/useFetch";
 import { deleteTodo } from "../../apis/todoAPI";
 
-export const ListItem = ({ id, todo }) => {
+export const ListItem = ({ id, todo, getMovies }) => {
   const navigate = useNavigate();
   const { mutate: patchEditTodoMutate } = usePatchEditTodoMutation();
   const { mutate: deleteTodoMutate } = useFetch(deleteTodo);
@@ -18,6 +18,11 @@ export const ListItem = ({ id, todo }) => {
   const [editTitle, setEditTitle] = useState(todo.title);
   const [editContent, setEditContent] = useState(todo.content);
   const [editCheck, setEditCheck] = useState(todo.checked);
+  const [trigger, setTrigger] = useState(false);
+
+  useEffect(() => {
+    getMovies();
+  }, [trigger, deleteTodoMutate, getMovies]);
 
   const handleDoneButton = () => {
     setIsEditing(false);
@@ -33,6 +38,7 @@ export const ListItem = ({ id, todo }) => {
 
   const handleDeleteButton = () => {
     deleteTodoMutate(id);
+    setTrigger(!trigger);
   };
 
   return (

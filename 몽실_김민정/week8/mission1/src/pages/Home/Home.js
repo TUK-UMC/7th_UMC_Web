@@ -69,7 +69,12 @@ function Home() {
       </form>
       <div className='list'>
         {todos?.map((todo) => (
-          <ListItem key={todo.id} id={todo.id} todo={todo} />
+          <ListItem
+            key={todo.id}
+            id={todo.id}
+            todo={todo}
+            getMovies={getMutate}
+          />
         ))}
       </div>
     </div>
