@@ -1,0 +1,53 @@
+.listitem-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  padding: 7px;
+  border: dashed 1px #d3d3d3;
+  border-radius: 7px;
+}
+
+.todo-wrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.todo-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.listItem-title {
+  text-align: left;
+  font-size: 18px;
+  font-weight: 700;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.listItem-content {
+  font-size: 15px;
+}
+
+.button-wrapper {
+  display: flex;
+  gap: 5px;
+}
+
+.listItem-button {
+  width: 100px;
+}
+
+.list-item {
+  display: flex;
+  gap: 5px;
+  height: 100%;
+  align-items: center;
+}
