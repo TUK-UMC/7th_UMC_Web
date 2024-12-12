@@ -1,7 +1,6 @@
-import { useState } from "react";
 import styled from "styled-components";
 
-export const PagenationButton = ({
+export const PaginationButton = ({
   handleClickNextButton,
   handleClickPreviousButton,
   page,

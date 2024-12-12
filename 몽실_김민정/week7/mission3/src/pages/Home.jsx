@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { Poster } from "../components/Poster";
 import { getPopularMovies } from "../apis/movieAPI";
-import { PagenationButton } from "../components/PagenationButton";
+import { PaginationButton } from "../components/PaginationButton";
 import { ErrorPage } from "./ErrorPage";
 import { useQuery } from "@tanstack/react-query";
 import { SkeletonPosterGrid } from "../components/SkeletonPosterGrid";
@@ -39,7 +39,7 @@ function Home() {
           <Poster movieData={movie} key={movie.id} />
         ))}
       </PosterWrapper>
-      <PagenationButton
+      <PaginationButton
         handleClickNextButton={handleClickNextButton}
         handleClickPreviousButton={handleClickPreviousButton}
         page={page}
