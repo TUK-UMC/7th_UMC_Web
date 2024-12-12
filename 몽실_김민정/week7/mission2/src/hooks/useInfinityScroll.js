@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { SkeletonPosterGrid } from "../components/SkeletonPosterGrid";
 import { ErrorPage } from "../pages/ErrorPage";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -20,18 +20,6 @@ export const useInfinityScroll = ({ queryFn, queryKey }) => {
     },
   });
 
-  const handleInfinityScroll = useCallback(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          console.log("보이자나");
-          fetchNextPage();
-        }
-      });
-    },
-    [fetchNextPage]
-  );
-
   const observeLastElement = (lastElement) => {
     if (!lastElement) return;
 
@@ -49,8 +37,11 @@ export const useInfinityScroll = ({ queryFn, queryKey }) => {
   };
 
   useEffect(() => {
-    setLastMovieId(data ? data?.pages[0].results.length - 1 : null);
-  }, [lastMovieId, data, handleInfinityScroll]);
+    const lastId = data?.pages[0].results
+      ? data?.pages[0].results.length - 1
+      : data?.pages[0].length - 1;
+    setLastMovieId(data ? lastId : null);
+  }, [lastMovieId, data]);
 
   if (isLoading) {
     return <SkeletonPosterGrid />;

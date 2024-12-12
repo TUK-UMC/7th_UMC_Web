@@ -21,7 +21,7 @@ function Home() {
   return (
     <Container>
       <PosterWrapper>
-        {data?.pages.map((pageData) =>
+        {data?.pages?.map((pageData) =>
           pageData.results.map((movie, idx) => (
             <Poster
               movieData={movie}
