@@ -1,44 +1,44 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useFetch } from "../../hooks/useFetch";
+import { deleteTodo, patchEditTodo } from "../../apis/todoAPI";
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
-import { usePatchEditTodoMutation } from "../../hooks/usePatchEditTodoMutation";
 
 import "./ListItem.css";
-import { useFetch } from "../../hooks/useFetch";
-import { deleteTodo } from "../../apis/todoAPI";
 
 export const ListItem = ({ id, todo, getMovies }) => {
   const navigate = useNavigate();
-  const { mutate: patchEditTodoMutate } = usePatchEditTodoMutation();
-  const { mutate: deleteTodoMutate } = useFetch(deleteTodo);
+  const { mutate: patchEditTodoMutate } = useFetch(patchEditTodo, false);
+  const { mutate: deleteTodoMutate } = useFetch(deleteTodo, false);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(todo.title);
   const [editContent, setEditContent] = useState(todo.content);
   const [editCheck, setEditCheck] = useState(todo.checked);
-  const [trigger, setTrigger] = useState(false);
 
-  useEffect(() => {
-    getMovies();
-  }, [trigger, deleteTodoMutate, getMovies]);
-
-  const handleDoneButton = () => {
+  const handleDoneButton = async () => {
     setIsEditing(false);
-    patchEditTodoMutate({
-      id,
-      data: {
+    try {
+      await patchEditTodoMutate(id, {
         title: editTitle,
         content: editContent,
         checked: editCheck,
-      },
-    });
+      });
+      getMovies();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleDeleteButton = () => {
-    deleteTodoMutate(id);
-    setTrigger(!trigger);
+  const handleDeleteButton = async () => {
+    try {
+      await deleteTodoMutate(id);
+      getMovies();
+    } catch (error) {
+      console.error();
+    }
   };
 
   return (

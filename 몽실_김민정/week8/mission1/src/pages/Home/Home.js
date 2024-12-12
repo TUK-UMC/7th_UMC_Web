@@ -13,14 +13,9 @@ import "./Home.css";
 function Home() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [trigger, setTrigger] = useState(false);
 
   const { data: todos, loading, error, mutate: getMutate } = useFetch(getTodos);
-  const { mutate: postMutate } = useFetch(postTodo);
-
-  useEffect(() => {
-    getMutate();
-  }, [trigger, getMutate]);
+  const { mutate: postMutate } = useFetch(postTodo, false);
 
   if (loading) {
     return <Loading />;
@@ -30,10 +25,15 @@ function Home() {
     return <Error />;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addTodo();
-    setTrigger(!trigger);
+
+    try {
+      await addTodo();
+      getMutate();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const addTodo = () => {
