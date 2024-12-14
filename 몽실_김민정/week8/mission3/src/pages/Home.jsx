@@ -1,32 +1,28 @@
 import styled from "styled-components";
+
+import { useInfinityScroll } from "../hooks/useInfinityScroll";
 import { Poster } from "../components/Poster";
 import { getPopularMovies } from "../apis/movieAPI";
-import { ErrorPage } from "./ErrorPage";
-import { useQuery } from "@tanstack/react-query";
-import { SkeletonPosterGrid } from "../components/SkeletonPosterGrid";
 import { Carousel } from "../components/Carousel";
 
 function Home() {
-  const { data, error, isLoading } = useQuery({
+  const { data, lastMovieId, setTarget } = useInfinityScroll({
+    queryFn: getPopularMovies,
     queryKey: ["homePageMovies"],
-    queryFn: () => getPopularMovies(1),
-    keepPreviousData: true,
   });
-
-  if (isLoading) {
-    return <SkeletonPosterGrid />;
-  }
-
-  if (error) {
-    return <ErrorPage />;
-  }
 
   return (
     <Container>
       <Carousel>
-        {data?.map((movie) => (
-          <Poster movieData={movie} key={movie.id} size={"m"} />
-        ))}
+        {data?.pages.map((pageData) =>
+          pageData.results.map((movieData) => (
+            <Poster
+              movieData={movieData}
+              key={movieData.id}
+              ref={movieData.id === lastMovieId ? setTarget : null}
+            />
+          ))
+        )}
       </Carousel>
     </Container>
   );

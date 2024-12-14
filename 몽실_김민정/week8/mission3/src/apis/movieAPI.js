@@ -24,7 +24,7 @@ export const getPopularMovies = async (page = 1) => {
     const movies = await instance.get(
       `movie/popular?language=ko-US&page=${page}`
     );
-    return movies.data.results;
+    return movies.data;
   } catch (error) {
     throw error;
   }

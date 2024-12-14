@@ -7,8 +7,6 @@ export const Carousel = ({ children }) => {
   const [hoverContainer, setHoverContainer] = useState(false);
   const [current, setCurrent] = useState(0);
 
-  console.log(current);
-
   return (
     <Container
       onMouseEnter={() => setHoverContainer(true)}
