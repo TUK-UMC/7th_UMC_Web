@@ -46,7 +46,7 @@ export const getUpComingMovies = async (page = 1) => {
     const movies = await instance.get(
       `movie/upcoming?language=ko-US&page=${page}`
     );
-    return movies.data.results;
+    return movies.data;
   } catch (error) {
     throw error;
   }

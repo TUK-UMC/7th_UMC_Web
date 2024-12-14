@@ -6,7 +6,6 @@ import { useIntersectionObserver } from "./useIntersectionObserver";
 
 export const useInfinityScroll = ({ queryFn, queryKey }) => {
   const [lastMovieId, setLastMovieId] = useState(0);
-  const target = null;
 
   const { data, error, isLoading, fetchNextPage } = useInfiniteQuery({
     queryKey: queryKey,

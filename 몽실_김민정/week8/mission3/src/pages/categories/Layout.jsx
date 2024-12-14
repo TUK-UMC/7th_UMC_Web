@@ -29,7 +29,7 @@ export const Layout = ({ func, queryKey }) => {
   return (
     <Container>
       <GridContainer>
-        {movies?.map((movie) => (
+        {movies?.results?.map((movie) => (
           <PosterWrapper key={movie.id}>
             <Poster movieData={movie} />
             <span>{movie.title}</span>
@@ -51,13 +51,14 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 200px;
 `;
 
 const GridContainer = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px 10px;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 20px 25px;
   padding: 15px 20px;
 `;
 

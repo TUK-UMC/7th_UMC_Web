@@ -11,6 +11,7 @@ export const Carousel = ({ children, type = "general" }) => {
     <Container
       onMouseEnter={() => setHoverContainer(true)}
       onMouseLeave={() => setHoverContainer(false)}
+      $type={type}
     >
       <CarouselContainer $current={current} $type={type}>
         {children}
@@ -35,7 +36,7 @@ const Container = styled.div`
   overflow: hidden;
   width: calc(100vw- 60px);
   position: relative;
-  padding-left: 90px;
+  padding-left: ${({ $type }) => $type === "rank" && "90px"};
 `;
 
 const CarouselContainer = styled.div`
