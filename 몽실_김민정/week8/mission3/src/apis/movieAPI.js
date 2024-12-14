@@ -13,7 +13,7 @@ export const getNowPlayingMovies = async (page = 1) => {
     const movies = await instance.get(
       `movie/now_playing?language=ko-US&page=${page}}`
     );
-    return movies.data.results;
+    return movies.data;
   } catch (error) {
     throw error;
   }
@@ -35,7 +35,7 @@ export const getTopRatedMovies = async (page = 1) => {
     const movies = await instance.get(
       `movie/top_rated?language=ko-US&page=${page}`
     );
-    return movies.data.results;
+    return movies.data;
   } catch (error) {
     throw error;
   }

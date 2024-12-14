@@ -15,6 +15,8 @@ import { NotFound } from "./pages/NotFound";
 import { Category } from "./pages/Category";
 import { MovieDetail } from "./pages/MovieDetail";
 
+import "./App.css";
+
 const router = createBrowserRouter([
   {
     path: "/",

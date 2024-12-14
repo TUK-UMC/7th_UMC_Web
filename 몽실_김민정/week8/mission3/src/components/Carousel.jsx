@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { FaArrowRight } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa6";
 
-export const Carousel = ({ children }) => {
+export const Carousel = ({ children, type = "general" }) => {
   const [hoverContainer, setHoverContainer] = useState(false);
   const [current, setCurrent] = useState(0);
 
@@ -12,7 +12,9 @@ export const Carousel = ({ children }) => {
       onMouseEnter={() => setHoverContainer(true)}
       onMouseLeave={() => setHoverContainer(false)}
     >
-      <CarouselContainer $current={current}>{children}</CarouselContainer>
+      <CarouselContainer $current={current} $type={type}>
+        {children}
+      </CarouselContainer>
       {hoverContainer && (
         <>
           {current !== 0 && (
@@ -33,11 +35,12 @@ const Container = styled.div`
   overflow: hidden;
   width: calc(100vw- 60px);
   position: relative;
+  padding-left: 90px;
 `;
 
 const CarouselContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: ${({ $type }) => ($type === "rank" ? "120px" : "10px")};
   transform: ${({ $current }) => `translateX(${$current}%)`};
   transition: transform 0.3s ease-in-out;
 `;
