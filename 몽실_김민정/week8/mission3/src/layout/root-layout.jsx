@@ -23,7 +23,9 @@ const RootContainer = styled.div`
 `;
 
 const ContentArea = styled.div`
+  padding: 100px 30px;
   flex-grow: 1;
+  overflow-x: hidden;
   overflow-y: auto;
 `;
 

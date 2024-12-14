@@ -4,27 +4,27 @@ import { formatImageURL } from "../utils/formatImageURL";
 
 export const Poster = ({ movieData }) => {
   return (
-    <div>
-      <PosterImage to={`/movies/${movieData.id}`}>
-        {movieData.poster_path ? (
-          <img src={formatImageURL(movieData.poster_path)} alt='포스터' />
-        ) : (
-          <DefaultImage />
-        )}
-      </PosterImage>
-    </div>
+    <PosterImage to={`/movies/${movieData.id}`}>
+      {movieData.poster_path ? (
+        <img src={formatImageURL(movieData.poster_path)} alt='포스터' />
+      ) : (
+        <DefaultImage />
+      )}
+    </PosterImage>
   );
 };
 
 const PosterImage = styled(Link)`
   cursor: pointer;
-  height: max-content;
+  width: max-content;
   border-radius: 10px;
-  overflow: hidden;
+  height: 300px;
   filter: brightness(100%);
 
   img {
-    height: 270px;
+    border-radius: 10px;
+    object-fit: cover;
+    height: 300px;
   }
 
   &:hover {

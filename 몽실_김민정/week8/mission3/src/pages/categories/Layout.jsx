@@ -56,7 +56,7 @@ const Container = styled.div`
 const GridContainer = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px 10px;
   padding: 15px 20px;
 `;

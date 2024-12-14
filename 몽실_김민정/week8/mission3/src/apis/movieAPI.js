@@ -20,7 +20,6 @@ export const getNowPlayingMovies = async (page = 1) => {
 };
 
 export const getPopularMovies = async (page = 1) => {
-  console.log(page);
   try {
     const movies = await instance.get(
       `movie/popular?language=ko-US&page=${page}`

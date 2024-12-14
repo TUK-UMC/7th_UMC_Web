@@ -1,26 +1,15 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { Poster } from "../components/Poster";
 import { getPopularMovies } from "../apis/movieAPI";
-import { PaginationButton } from "../components/PaginationButton";
 import { ErrorPage } from "./ErrorPage";
 import { useQuery } from "@tanstack/react-query";
 import { SkeletonPosterGrid } from "../components/SkeletonPosterGrid";
+import { Carousel } from "../components/Carousel";
 
 function Home() {
-  const [page, setPage] = useState(1);
-
-  const handleClickNextButton = () => {
-    setPage((prev) => prev + 1);
-  };
-
-  const handleClickPreviousButton = () => {
-    setPage((prev) => prev - 1);
-  };
-
   const { data, error, isLoading } = useQuery({
-    queryKey: ["homePageMovies", page],
-    queryFn: () => getPopularMovies(page),
+    queryKey: ["homePageMovies"],
+    queryFn: () => getPopularMovies(1),
     keepPreviousData: true,
   });
 
@@ -34,35 +23,15 @@ function Home() {
 
   return (
     <Container>
-      <PosterWrapper>
+      <Carousel>
         {data?.map((movie) => (
-          <Poster movieData={movie} key={movie.id} />
+          <Poster movieData={movie} key={movie.id} size={"m"} />
         ))}
-      </PosterWrapper>
-      {/* <PaginationButton
-        handleClickNextButton={handleClickNextButton}
-        handleClickPreviousButton={handleClickPreviousButton}
-        page={page}
-      /> */}
+      </Carousel>
     </Container>
   );
 }
 
-const Container = styled.div`
-  height: 100%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const PosterWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  overflow-x: scroll;
-  gap: 10px;
-  padding: 15px 20px;
-`;
+const Container = styled.div``;
 
 export default Home;
