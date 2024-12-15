@@ -2,6 +2,7 @@ import * as S from "../styles/AlbumCard.style";
 import { ChevronDown } from "../assets/ChevronDown";
 import { ChevronUp } from "../assets/ChevronUp";
 import useCartStore from "../store/cartStore";
+import PropTypes from "prop-types";
 
 export const AlbumCard = ({ data }) => {
   const { increase, decrease, removeItem } = useCartStore();
@@ -32,4 +33,15 @@ export const AlbumCard = ({ data }) => {
       </S.QuantityButtonWrapper>
     </S.AlbumCardWrapper>
   );
+};
+
+AlbumCard.propTypes = {
+  data: PropTypes.shape({
+    img: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    singer: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    amount: PropTypes.number.isRequired,
+  }),
 };

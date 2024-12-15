@@ -1,55 +1,48 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
+import { useFetch } from "../../hooks/useFetch";
+import { getTodos, postTodo } from "../../apis/todoAPI";
 import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input/Input";
 import { ListItem } from "../../components/ListItem/ListItem";
-import { getTodos } from "../../apis/todoAPI";
 import { Loading } from "../Loading/Loading";
 import { Error } from "../Error/Error";
-import { usePostTodoMutation } from "../../hooks/usePostTodoMutation";
 
 import "./Home.css";
 
 function Home() {
-  const { mutate: postTodoMutate } = usePostTodoMutation();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const {
-    data: todos,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["todos"],
-    queryFn: getTodos,
-  });
+  const { data: todos, loading, error, mutate: getMutate } = useFetch(getTodos);
+  const { mutate: postMutate } = useFetch(postTodo, false);
 
-  if (isLoading) {
+  if (loading) {
     return <Loading />;
   }
 
-  if (isError) {
+  if (error) {
     return <Error />;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addTodo();
+
+    try {
+      await addTodo();
+      getMutate();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const addTodo = () => {
     if (title !== "" && content !== "") {
-      postTodoMutate(
-        { title, content },
-        {
-          onSuccess: () => {
-            setTitle("");
-            setContent("");
-          },
-        }
-      );
+      postMutate({ title, content });
+      setTitle("");
+      setContent("");
     }
+    getMutate();
   };
 
   return (
@@ -76,7 +69,12 @@ function Home() {
       </form>
       <div className='list'>
         {todos?.map((todo) => (
-          <ListItem key={todo.id} id={todo.id} todo={todo} />
+          <ListItem
+            key={todo.id}
+            id={todo.id}
+            todo={todo}
+            getMovies={getMutate}
+          />
         ))}
       </div>
     </div>

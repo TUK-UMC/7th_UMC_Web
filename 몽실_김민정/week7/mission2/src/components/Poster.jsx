@@ -1,11 +1,12 @@
+import { forwardRef } from "react";
 import { styled } from "styled-components";
 import { Link } from "react-router-dom";
 import { formatImageURL } from "../utils/formatImageURL";
 
-export const Poster = ({ movieData }) => {
+export const Poster = forwardRef(({ movieData, isLast }, ref) => {
   return (
-    <div>
-      <PosterImage to={`/movies/${movieData.id}`}>
+    <div ref={ref}>
+      <PosterImage to={`/movies/${movieData.id}`} ref={ref} isLast={isLast}>
         {movieData.poster_path ? (
           <img src={formatImageURL(movieData.poster_path)} alt='포스터' />
         ) : (
@@ -14,7 +15,7 @@ export const Poster = ({ movieData }) => {
       </PosterImage>
     </div>
   );
-};
+});
 
 const PosterImage = styled(Link)`
   cursor: pointer;
@@ -22,6 +23,7 @@ const PosterImage = styled(Link)`
   border-radius: 10px;
   overflow: hidden;
   filter: brightness(100%);
+  border: ${({ isLast }) => isLast && "1px solid red"};
 
   img {
     width: 100%;

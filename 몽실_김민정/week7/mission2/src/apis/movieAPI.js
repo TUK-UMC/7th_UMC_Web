@@ -19,12 +19,13 @@ export const getNowPlayingMovies = async () => {
   }
 };
 
-export const getPopularMovies = async (page) => {
+export const getPopularMovies = async (pageParam) => {
   try {
     const movies = await instance.get(
-      `movie/popular?language=ko-US&page=${page}`
+      `movie/popular?language=ko-US&page=${pageParam}`
     );
-    return movies.data.results;
+    // console.log(movies.data);
+    return movies.data;
   } catch (error) {
     throw error;
   }

@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
-import { getDetailTodoInfo } from "../../apis/todoAPI";
+import { useFetch } from "../../hooks/useFetch";
+import { getDetailTodoInfo, patchEditTodo } from "../../apis/todoAPI";
 import { Loading } from "../Loading/Loading";
 import { formatDateToString } from "../../utils/formatDateToString";
 import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import { ReactComponent as CheckIcon } from "../../assets/check.svg";
-import { usePatchEditTodoMutation } from "../../hooks/usePatchEditTodoMutation";
 
 import "./TodoDetail.css";
 
@@ -18,7 +18,7 @@ export const TodoDetail = () => {
   const [checked, setChecked] = useState(false);
 
   const { id } = useParams();
-  const { mutate: patchTodoMutate } = usePatchEditTodoMutation();
+  const { mutate: patchTodoMutate } = useFetch(patchEditTodo);
 
   const {
     data: todo,
@@ -42,16 +42,17 @@ export const TodoDetail = () => {
     return <Loading />;
   }
 
-  const handleDoneButton = () => {
+  const handleDoneButton = async () => {
     setIsEditing(false);
-    patchTodoMutate({
-      id,
-      data: {
+    try {
+      await patchTodoMutate(id, {
         title,
         content,
         checked,
-      },
-    });
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
